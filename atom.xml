@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://github.com/oldmee/oldmee.github.io/blob/master/"/>
+  <link href="https://oldmee.github.io/"/>
   <updated>2019-02-21T05:50:29.013Z</updated>
-  <id>https://github.com/oldmee/oldmee.github.io/blob/master/</id>
+  <id>https://oldmee.github.io/</id>
   
   <author>
     <name>oldmee</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Class.forName(&quot;com.mysql.jdbc.Driver&quot;)到底在干啥</title>
-    <link href="https://github.com/oldmee/oldmee.github.io/blob/master/2019/02/21/mysql-jdbc-driver-function/"/>
-    <id>https://github.com/oldmee/oldmee.github.io/blob/master/2019/02/21/mysql-jdbc-driver-function/</id>
+    <link href="https://oldmee.github.io/2019/02/21/mysql-jdbc-driver-function/"/>
+    <id>https://oldmee.github.io/2019/02/21/mysql-jdbc-driver-function/</id>
     <published>2019-02-21T04:56:51.000Z</published>
     <updated>2019-02-21T05:50:29.013Z</updated>
     
@@ -36,14 +36,14 @@
     </summary>
     
     
-      <category term="技术" scheme="https://github.com/oldmee/oldmee.github.io/blob/master/tags/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://oldmee.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
   <entry>
     <title>zookeeper</title>
-    <link href="https://github.com/oldmee/oldmee.github.io/blob/master/2019/02/21/zookeeper/"/>
-    <id>https://github.com/oldmee/oldmee.github.io/blob/master/2019/02/21/zookeeper/</id>
+    <link href="https://oldmee.github.io/2019/02/21/zookeeper/"/>
+    <id>https://oldmee.github.io/2019/02/21/zookeeper/</id>
     <published>2019-02-21T02:12:31.000Z</published>
     <updated>2019-02-21T02:15:19.909Z</updated>
     
@@ -60,14 +60,14 @@
     </summary>
     
     
-      <category term="技术" scheme="https://github.com/oldmee/oldmee.github.io/blob/master/tags/%E6%8A%80%E6%9C%AF/"/>
+      <category term="技术" scheme="https://oldmee.github.io/tags/%E6%8A%80%E6%9C%AF/"/>
     
   </entry>
   
   <entry>
     <title>我的半生感悟</title>
-    <link href="https://github.com/oldmee/oldmee.github.io/blob/master/2018/02/10/myLife/"/>
-    <id>https://github.com/oldmee/oldmee.github.io/blob/master/2018/02/10/myLife/</id>
+    <link href="https://oldmee.github.io/2018/02/10/myLife/"/>
+    <id>https://oldmee.github.io/2018/02/10/myLife/</id>
     <published>2018-02-10T02:09:27.000Z</published>
     <updated>2019-02-21T02:35:35.310Z</updated>
     
@@ -83,7 +83,7 @@
     </summary>
     
     
-      <category term="人生" scheme="https://github.com/oldmee/oldmee.github.io/blob/master/tags/%E4%BA%BA%E7%94%9F/"/>
+      <category term="人生" scheme="https://oldmee.github.io/tags/%E4%BA%BA%E7%94%9F/"/>
     
   </entry>
   
