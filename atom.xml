@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.csdn.net/javaer_lee/"/>
-  <updated>2019-02-21T02:15:19.909Z</updated>
+  <updated>2019-02-21T05:50:29.013Z</updated>
   <id>https://blog.csdn.net/javaer_lee/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Class.forName(&quot;com.mysql.jdbc.Driver&quot;)到底在干啥</title>
+    <link href="https://blog.csdn.net/javaer_lee/2019/02/21/mysql-jdbc-driver-function/"/>
+    <id>https://blog.csdn.net/javaer_lee/2019/02/21/mysql-jdbc-driver-function/</id>
+    <published>2019-02-21T04:56:51.000Z</published>
+    <updated>2019-02-21T05:50:29.013Z</updated>
+    
+    <content type="html"><![CDATA[<img src="/javaer_lee/2019/02/21/mysql-jdbc-driver-function/2019/02/21/mysql-jdbc-driver-function/mysql.jpg"><blockquote><p>Talk is cheap，show me the code.</p><footer><strong>--老李</strong></footer></blockquote><p>Class.forName(“com.mysql.jdbc.Driver”).newInstance() （Java 9开始newInstance()就已经不赞成使用了）<br>等价于com.mysql.jdbc.Driver driver = new com.mysql.jdbc.Driver();</p><p>Class.forName()的作用是要求JVM查找并加载指定的类，也就是说JVM会执行该类的静态代码段（并没有创建新对象）</p><p>所以也可以这么写：com.mysql.jdbc.Driver driver = new com.mysql.jdbc.Driver();</p><p>再看看Driver的源码：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.mysql.jdbc</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Driver</span> <span class="keyword">extends</span> <span class="title">NonRegisteringDriver</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">sql</span>.<span class="title">Driver</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ~ Static fields/initializers</span></span><br><span class="line"><span class="comment">// --------------------------------------------- //</span></span><br><span class="line"><span class="comment">// Register ourselves with the DriverManager</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            java.sql.DriverManager.registerDriver(<span class="keyword">new</span> Driver());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException E) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Can't register driver!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// ~ Constructors   </span></span><br><span class="line"><span class="comment">// -----------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Construct a new driver and register it with DriverManager</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> SQLException if a database error occurs.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Driver</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// Required for Class.forName().newInstance()</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>根据下面三条规则：</p><p>1.当调用一个类的静态变量时，这个类中的静态代码块会执行。【只有静态代码块会执行】</p><p>2.当调用一个 类的静态方法时，这个类中的静态代码块会执行。【只有静态代码块会执行】</p><p>3.当创建一个 类的一个实例时，这个类中的静态代码块、非静态代码块（也叫构造代码块）、创建实例的相应的构造方法都会执行。</p><p>什么？还不明白？</p><p>Class.forName(“com.mysql.jdbc.Driver”);<br>String url = “jdbc:mysql://127.0.0.1/test?useUnicode=true&amp;characterEncoding=utf-8”;<br>String user = “”;<br>String psw = “”;<br>Connection con = DriverManager.getConnection(url,user,psw);<br>Class.forName就是触发static代码块中driver注册到DriverManager的行为，注册完了就可以随便调用了呗。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;img src=&quot;/javaer_lee/2019/02/21/mysql-jdbc-driver-function/2019/02/21/mysql-jdbc-driver-function/mysql.jpg&quot;&gt;
+&lt;blockquote&gt;&lt;p&gt;Talk is cheap，s
+      
+    
+    </summary>
+    
+    
+      <category term="技术" scheme="https://blog.csdn.net/javaer_lee/tags/%E6%8A%80%E6%9C%AF/"/>
+    
+  </entry>
   
   <entry>
     <title>zookeeper</title>
