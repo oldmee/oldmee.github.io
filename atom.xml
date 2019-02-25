@@ -143,13 +143,13 @@
     <link href="https://oldmee.github.io/2019/02/21/zookeeper/"/>
     <id>https://oldmee.github.io/2019/02/21/zookeeper/</id>
     <published>2019-02-21T02:12:31.000Z</published>
-    <updated>2019-02-25T07:32:20.322Z</updated>
+    <updated>2019-02-25T07:37:25.410Z</updated>
     
-    <content type="html"><![CDATA[<p>怎么可能一秒钟，起码得一分钟吧~<br><a id="more"></a></p><h3 id="分布式锁获取思路"><a href="#分布式锁获取思路" class="headerlink" title="分布式锁获取思路"></a>分布式锁获取思路</h3><p>a、在zookeeper指定节点（locker）下创建临时顺序节点。</p><p>b、客户端调用createNode方法在locker下创建临时顺序节点，然后调用getChildren(“locker”)来获取locker下面的所有子节点，注意此时不用设置任何Watcher。</p><p>c、客户端获取到所有的子节点path之后，如果发现自己创建的子节点序号最小，那么就认为该客户端获取到了锁。</p><p>d、如果发现自己创建的节点并非locker所有子节点中最小的，说明自己还没有获取到锁，此时客户端需要找到比自己小的那个节点，然后对其调用exist()方法，同时对其注册事件监听器。</p><p>e、之后，如果这个被关注的节点被删除了（释放锁的时候会删除该节点），则客户端的Watcher会收到相应通知，此时再次判断自己创建的节点是否是locker子节点中序号最小的，如果是则获取到了锁，如果不是则重复以上步骤继续获取到比自己小的一个节点并注册监听。</p>]]></content>
+    <content type="html"><![CDATA[<p>怎么可能一秒钟，起码也得一分钟吧~<br><a id="more"></a></p><h3 id="分布式锁获取思路"><a href="#分布式锁获取思路" class="headerlink" title="分布式锁获取思路"></a>分布式锁获取思路</h3><p>a、在zookeeper指定节点（locker）下创建临时顺序节点。</p><p>b、客户端调用createNode方法在locker下创建临时顺序节点，然后调用getChildren(“locker”)来获取locker下面的所有子节点，注意此时不用设置任何Watcher。</p><p>c、客户端获取到所有的子节点path之后，如果发现自己创建的子节点序号最小，那么就认为该客户端获取到了锁。</p><p>d、如果发现自己创建的节点并非locker所有子节点中最小的，说明自己还没有获取到锁，此时客户端需要找到比自己小的那个节点，然后对其调用exist()方法，同时对其注册事件监听器。</p><p>e、之后，如果这个被关注的节点被删除了（释放锁的时候会删除该节点），则客户端的Watcher会收到相应通知，此时再次判断自己创建的节点是否是locker子节点中序号最小的，如果是则获取到了锁，如果不是则重复以上步骤继续获取到比自己小的一个节点并注册监听。</p>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;怎么可能一秒钟，起码得一分钟吧~&lt;br&gt;&lt;/p&gt;
+      &lt;p&gt;怎么可能一秒钟，起码也得一分钟吧~&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
