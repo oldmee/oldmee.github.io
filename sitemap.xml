@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://oldmee.github.io/2019/02/21/mysql-jdbc-driver-function/</loc>
+    
+    <lastmod>2019-02-25T03:08:54.409Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://oldmee.github.io/2019/02/25/book-list/</loc>
     
     <lastmod>2019-02-25T03:05:44.504Z</lastmod>
@@ -26,13 +33,6 @@
     <loc>https://oldmee.github.io/123/index.html</loc>
     
     <lastmod>2019-02-22T05:36:13.424Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://oldmee.github.io/2019/02/21/mysql-jdbc-driver-function/</loc>
-    
-    <lastmod>2019-02-21T06:55:50.277Z</lastmod>
     
   </url>
   
