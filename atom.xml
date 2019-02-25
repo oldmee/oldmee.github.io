@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://oldmee.github.io/"/>
-  <updated>2019-02-25T03:05:44.504Z</updated>
+  <updated>2019-02-25T07:27:50.213Z</updated>
   <id>https://oldmee.github.io/</id>
   
   <author>
@@ -17,23 +17,54 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>敏感词过滤算法</title>
+    <link href="https://oldmee.github.io/2019/02/25/deterministic-finite-automaton/"/>
+    <id>https://oldmee.github.io/2019/02/25/deterministic-finite-automaton/</id>
+    <published>2019-02-25T07:09:58.000Z</published>
+    <updated>2019-02-25T07:27:50.213Z</updated>
+    
+    <content type="html"><![CDATA[<p>在实现文字过滤的算法中，DFA是唯一比较好的实现算法。DFA即Deterministic Finite Automaton，也就是确定有穷自动机，它是是通过event和当前的state得到下一个state，即event+state=nextstate。<br><a id="more"></a><br>敏感词会被构建成状态加标志位的形式，如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 读取敏感词库，将敏感词放入HashSet中，构建一个DFA算法模型：&lt;br&gt; </span></span><br><span class="line"><span class="comment">     * 中 = &#123; </span></span><br><span class="line"><span class="comment">     *      isEnd = 0 </span></span><br><span class="line"><span class="comment">     *      国 = &#123; </span></span><br><span class="line"><span class="comment">     *           isEnd = 1 </span></span><br><span class="line"><span class="comment">     *           人 = &#123;isEnd = 0 </span></span><br><span class="line"><span class="comment">     *                民 = &#123;isEnd = 1&#125; </span></span><br><span class="line"><span class="comment">     *                &#125; </span></span><br><span class="line"><span class="comment">     *           男  = &#123; </span></span><br><span class="line"><span class="comment">     *                  isEnd = 0 </span></span><br><span class="line"><span class="comment">     *                   人 = &#123; </span></span><br><span class="line"><span class="comment">     *                        isEnd = 1 </span></span><br><span class="line"><span class="comment">     *                       &#125; </span></span><br><span class="line"><span class="comment">     *               &#125; </span></span><br><span class="line"><span class="comment">     *           &#125; </span></span><br><span class="line"><span class="comment">     *      &#125; </span></span><br><span class="line"><span class="comment">     *  五 = &#123; </span></span><br><span class="line"><span class="comment">     *      isEnd = 0 </span></span><br><span class="line"><span class="comment">     *      星 = &#123; </span></span><br><span class="line"><span class="comment">     *          isEnd = 0 </span></span><br><span class="line"><span class="comment">     *          红 = &#123; </span></span><br><span class="line"><span class="comment">     *              isEnd = 0 </span></span><br><span class="line"><span class="comment">     *              旗 = &#123; </span></span><br><span class="line"><span class="comment">     *                   isEnd = 1 </span></span><br><span class="line"><span class="comment">     *                  &#125; </span></span><br><span class="line"><span class="comment">     *              &#125; </span></span><br><span class="line"><span class="comment">     *          &#125; </span></span><br><span class="line"><span class="comment">     *      &#125; </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@author</span> null  </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@date</span> 2019年2月25日 下午3:04:20 </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> keyWordSet  敏感词库 </span></span><br><span class="line"><span class="comment">     * <span class="doctag">@version</span> 1.0 </span></span><br><span class="line"><span class="comment">     */</span> </span><br><span class="line"></span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在实现文字过滤的算法中，DFA是唯一比较好的实现算法。DFA即Deterministic Finite Automaton，也就是确定有穷自动机，它是是通过event和当前的state得到下一个state，即event+state=nextstate。&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>如何设计一个高并发系统</title>
+    <link href="https://oldmee.github.io/2019/02/25/design-high-concurrency-system/"/>
+    <id>https://oldmee.github.io/2019/02/25/design-high-concurrency-system/</id>
+    <published>2019-02-25T04:39:57.000Z</published>
+    <updated>2019-02-25T07:28:36.364Z</updated>
+    
+    <content type="html"><![CDATA[<p>有过高并发实践经验的当然最好了，但事实是这很难，除非是这家公司是匹黑马，你刚去的时候用户不多，但是行业发展好，每月几百万用户用户的增长，你不断的踩坑，不断地升级公司的系统架构，现在不太可能实现了，互联网巨头们都已经尘埃落定，所以大部分人基本上也碰不到这些个情况了，但是互联网公司面试要问呐，咋整？<br><a id="more"></a><br>第一类当然是最好的，有过经验的，没有怎么办？退而求其次！你没吃过猪肉还没见过猪跑？把理论玩精了，总比对高并发系统一无所知的人要好的多吧。</p><p>如果你属于第二种情况，试试从下面六个方面来设计一个高并发的系统：</p><ul><li>系统拆分</li><li>缓存</li><li>MQ</li><li>分库分表</li><li>读写分离</li><li>ElasticSearch</li></ul><p><img src="/2019/02/25/design-high-concurrency-system/hc.jpg" alt></p><h3 id="系统拆分"><a href="#系统拆分" class="headerlink" title="系统拆分"></a>系统拆分</h3><p>将一个系统拆分为多个子系统，用 dubbo 来搞。然后每个系统连一个数据库，这样本来就一个库，现在多个数据库，不也可以扛高并发么。</p><h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>缓存，必须得用缓存。大部分的高并发场景，都是读多写少，那你完全可以在数据库和缓存里都写一份，然后读的时候大量走缓存不就得了。毕竟人家 redis 轻轻松松单机几万的并发。所以你可以考虑考虑你的项目里，那些承载主要请求的读场景，怎么用缓存来抗高并发。</p><h3 id="MQ"><a href="#MQ" class="headerlink" title="MQ"></a>MQ</h3><p>MQ，必须得用 MQ。可能你还是会出现高并发写的场景，比如说一个业务操作里要频繁搞数据库几十次，增删改增删改，疯了。那高并发绝对搞挂你的系统，你要是用 redis 来承载写那肯定不行，人家是缓存，数据随时就被 LRU 了，数据格式还无比简单，没有事务支持。所以该用 mysql 还得用 mysql 啊。那你咋办？用 MQ 吧，大量的写请求灌入 MQ 里，排队慢慢玩儿，后边系统消费后慢慢写，控制在 mysql 承载范围之内。所以你得考虑考虑你的项目里，那些承载复杂写业务逻辑的场景里，如何用 MQ 来异步写，提升并发性。MQ 单机抗几万并发也是 ok 的，这个之前还特意说过。</p><h3 id="分库分表"><a href="#分库分表" class="headerlink" title="分库分表"></a>分库分表</h3><p>分库分表，可能到了最后数据库层面还是免不了抗高并发的要求，好吧，那么就将一个数据库拆分为多个库，多个库来扛更高的并发；然后将一个表拆分为多个表，每个表的数据量保持少一点，提高 sql 跑的性能。</p><h3 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h3><p>读写分离，这个就是说大部分时候数据库可能也是读多写少，没必要所有请求都集中在一个库上吧，可以搞个主从架构，主库写入，从库读取，搞一个读写分离。读流量太多的时候，还可以加更多的从库。</p><h3 id="ElasticSearch"><a href="#ElasticSearch" class="headerlink" title="ElasticSearch"></a>ElasticSearch</h3><p>Elasticsearch，简称 es。es 是分布式的，可以随便扩容，分布式天然就可以支撑高并发，因为动不动就可以扩容加机器来扛更高的并发。那么一些比较简单的查询、统计类的操作，可以考虑用 es 来承载，还有一些全文搜索类的操作，也可以考虑用 es 来承载。</p><blockquote><p>其实大部分公司，真正看重的，不是说你掌握高并发相关的一些基本的架构知识，架构中的一些技术，RocketMQ、Kafka、Redis、Elasticsearch，高并发这一块，你了解了，也只能是次一等的人才。对一个有几十万行代码的复杂的分布式系统，一步一步架构、设计以及实践过高并发架构的人，这个经验是难能可贵的。</p><footer><strong>--很现实但没什么意义的话</strong></footer></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;有过高并发实践经验的当然最好了，但事实是这很难，除非是这家公司是匹黑马，你刚去的时候用户不多，但是行业发展好，每月几百万用户用户的增长，你不断的踩坑，不断地升级公司的系统架构，现在不太可能实现了，互联网巨头们都已经尘埃落定，所以大部分人基本上也碰不到这些个情况了，但是互联网公司面试要问呐，咋整？&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>图书列表清单</title>
     <link href="https://oldmee.github.io/2019/02/25/book-list/"/>
     <id>https://oldmee.github.io/2019/02/25/book-list/</id>
     <published>2019-02-25T01:29:22.000Z</published>
-    <updated>2019-02-25T03:05:44.504Z</updated>
+    <updated>2019-02-25T07:31:04.386Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="阅读清单"><a href="#阅读清单" class="headerlink" title="阅读清单"></a>阅读清单</h3><blockquote><p>2018-12-08<br>第一批次</p></blockquote><ul><li>Java编程思想 第4版</li><li>Head First 设计模式</li><li>深入理解Java虚拟机 JVM高级特性与最佳实践</li><li>Effective Java英文版 第三版</li><li>重构 改善既有代码的设计</li><li>Docker技术入门与实战</li><li>Hadoop权威指南第四版</li><li>Hive编程指南</li><li>Spark快速大数据分析<br><br></li></ul><blockquote><p>2019-01-24<br>第二批次</p></blockquote><ul><li>Effective Java中文版 第三版<br><br></li></ul><blockquote><p>2019-02-20<br>第三批次</p></blockquote><ul><li>RocketMQ技术内幕</li><li>企业私有云建设指南</li><li>ZooKeeper分布式过程协同技术详解</li><li>架构即未来</li><li>架构真经</li><li>Java机器学习</li></ul><p>…未完待续</p>]]></content>
+    <content type="html"><![CDATA[<blockquote><p>老话说的好：少打王者多读书。</p></blockquote><a id="more"></a><h3 id="阅读清单"><a href="#阅读清单" class="headerlink" title="阅读清单"></a>阅读清单</h3><blockquote><p>2018-12-08<br>第一批次</p></blockquote><ul><li>Java编程思想 第4版</li><li>Head First 设计模式</li><li>深入理解Java虚拟机 JVM高级特性与最佳实践</li><li>Effective Java英文版 第三版</li><li>重构 改善既有代码的设计</li><li>Docker技术入门与实战</li><li>Hadoop权威指南第四版</li><li>Hive编程指南</li><li>Spark快速大数据分析<br><br></li></ul><blockquote><p>2019-01-24<br>第二批次</p></blockquote><ul><li>Effective Java中文版 第三版<br><br></li></ul><blockquote><p>2019-02-20<br>第三批次</p></blockquote><ul><li>RocketMQ技术内幕</li><li>企业私有云建设指南</li><li>ZooKeeper分布式过程协同技术详解</li><li>架构即未来</li><li>架构真经</li><li>Java机器学习</li></ul><p>…未完待续</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;阅读清单&quot;&gt;&lt;a href=&quot;#阅读清单&quot; class=&quot;headerlink&quot; title=&quot;阅读清单&quot;&gt;&lt;/a&gt;阅读清单&lt;/h3&gt;&lt;blockquote&gt;&lt;p&gt;2018-12-08&lt;br&gt;第一批次&lt;/p&gt;
+      &lt;blockquote&gt;&lt;p&gt;老话说的好：少打王者多读书。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;Java
-      
     
     </summary>
     
@@ -45,18 +76,14 @@
     <link href="https://oldmee.github.io/2019/02/22/tsy-coding-best-practice/"/>
     <id>https://oldmee.github.io/2019/02/22/tsy-coding-best-practice/</id>
     <published>2019-02-22T08:08:55.000Z</published>
-    <updated>2019-02-22T08:15:38.798Z</updated>
+    <updated>2019-02-25T07:30:35.441Z</updated>
     
-    <content type="html"><![CDATA[<blockquote><p>总来来说就是一次循环就执行一个动作，代码按照界面来操作（到了这个界面应该做什么动作）<br>遵循这个理论下面是具体的执行标准</p></blockquote><h3 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h3><ul><li>用else if代替单条if</li><li>每条else if代表一个界面</li></ul><h3 id="Debug技巧"><a href="#Debug技巧" class="headerlink" title="Debug技巧"></a>Debug技巧</h3><ul><li>刚修改的地方全部注释，缩小范围</li><li>注释一整段if语句，缩小范围</li></ul>]]></content>
+    <content type="html"><![CDATA[<blockquote><p>总来来说就是一次循环就执行一个动作，代码按照界面来操作（到了这个界面应该做什么动作）<br>遵循这个理论下面是具体的执行标准</p></blockquote><a id="more"></a><h3 id="代码规范"><a href="#代码规范" class="headerlink" title="代码规范"></a>代码规范</h3><ul><li>用else if代替单条if</li><li>每条else if代表一个界面</li></ul><h3 id="Debug技巧"><a href="#Debug技巧" class="headerlink" title="Debug技巧"></a>Debug技巧</h3><ul><li>刚修改的地方全部注释，缩小范围</li><li>注释一整段if语句，缩小范围</li></ul>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;blockquote&gt;&lt;p&gt;总来来说就是一次循环就执行一个动作，代码按照界面来操作（到了这个界面应该做什么动作）&lt;br&gt;遵循这个理论下面是具体的执行标准&lt;/p&gt;
+      &lt;blockquote&gt;&lt;p&gt;总来来说就是一次循环就执行一个动作，代码按照界面来操作（到了这个界面应该做什么动作）&lt;br&gt;遵循这个理论下面是具体的执行标准&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h3 id=&quot;代码规范&quot;&gt;&lt;a href=&quot;#代码规范&quot; class=&quot;headerl
-      
     
     </summary>
     
@@ -68,17 +95,13 @@
     <link href="https://oldmee.github.io/2019/02/22/hexo-use/"/>
     <id>https://oldmee.github.io/2019/02/22/hexo-use/</id>
     <published>2019-02-22T03:22:00.000Z</published>
-    <updated>2019-02-22T09:43:02.649Z</updated>
+    <updated>2019-02-25T07:31:21.330Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="这是一个坑"><a href="#这是一个坑" class="headerlink" title="这是一个坑"></a>这是一个坑</h3><p>安装方式我就不说了，就是按照网上说的那样，我主要说一下Deploy中的脚本怎么配置，网上都是类似这种</p><blockquote><p>./xxxx.sh</p></blockquote><p>完了我也傻不拉几的按照这种方式写，后来发现这就是一个脚本，你不用deploy就用命令行运行也是一样的，<br>admin只是一个写markdown的工具，部署只是提供给你一个快捷键罢了，问题是我是Windows，居然也用.sh真是尴尬，改成.bat路径前面也不需要.这也是linux下的写法。deployCommand: ‘hexo-generate.bat’ 就行了。</p><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>每次hexo deploy的时候是不是都要输入github用户名密码？<br>可以这样做</p><p>先配置一个环境变量</p><p><img src="/2019/02/22/hexo-use/home.png" style="margin-left:0px"></p><p>接着在你的用户目录（C:\Users\username）下新建一个叫 _netrc的文件(没有拓展名)<br>编辑这个文件</p><ul><li>machine github.com</li><li>login username</li><li>password password</li></ul><p>设置好这些后，当你再次部署时，就不用输入用户名和密码了。</p><h3 id="tips2"><a href="#tips2" class="headerlink" title="tips2"></a>tips2</h3><p>hexo admin可以配置用户名和密码，密码需要用bcrypt加密，方法如下。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BCryptDemo</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 　　<span class="comment">// Hash a password for the first time</span></span><br><span class="line"> 　　　　String password = <span class="string">"testpassword"</span>;</span><br><span class="line">　　　　String hashed = BCrypt.hashpw(password, BCrypt.gensalt());</span><br><span class="line">　　　　System.out.println(hashed);</span><br><span class="line">　　<span class="comment">// gensalt's log_rounds parameter determines the complexity</span></span><br><span class="line">　　<span class="comment">// the work factor is 2**log_rounds, and the default is 10</span></span><br><span class="line">　　String hashed2 = BCrypt.hashpw(password, BCrypt.gensalt(<span class="number">12</span>));</span><br><span class="line"> </span><br><span class="line">　　<span class="comment">// Check that an unencrypted password matches one that has</span></span><br><span class="line">　　<span class="comment">// previously been hashed</span></span><br><span class="line">　　String candidate = <span class="string">"testpassword"</span>;</span><br><span class="line">　　<span class="comment">//String candidate = "wrongtestpassword";</span></span><br><span class="line">　　<span class="keyword">if</span> (BCrypt.checkpw(candidate, hashed))</span><br><span class="line">　　　　System.out.println(<span class="string">"It matches"</span>);</span><br><span class="line">　　<span class="keyword">else</span></span><br><span class="line">　　System.out.println(<span class="string">"It does not match"</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content>
+    <content type="html"><![CDATA[<h3 id="这是一个坑"><a href="#这是一个坑" class="headerlink" title="这是一个坑"></a>这是一个坑</h3><p>安装方式我就不说了，就是按照网上说的那样，我主要说一下Deploy中的脚本怎么配置，网上都是类似这种<br><a id="more"></a><br><blockquote><p>./xxxx.sh</p></blockquote></p><p>完了我也傻不拉几的按照这种方式写，后来发现这就是一个脚本，你不用deploy就用命令行运行也是一样的，<br>admin只是一个写markdown的工具，部署只是提供给你一个快捷键罢了，问题是我是Windows，居然也用.sh真是尴尬，改成.bat路径前面也不需要.这也是linux下的写法。deployCommand: ‘hexo-generate.bat’ 就行了。</p><h3 id="tips"><a href="#tips" class="headerlink" title="tips"></a>tips</h3><p>每次hexo deploy的时候是不是都要输入github用户名密码？<br>可以这样做</p><p>先配置一个环境变量</p><p><img src="/2019/02/22/hexo-use/home.png" style="margin-left:0px"></p><p>接着在你的用户目录（C:\Users\username）下新建一个叫 _netrc的文件(没有拓展名)<br>编辑这个文件</p><ul><li>machine github.com</li><li>login username</li><li>password password</li></ul><p>设置好这些后，当你再次部署时，就不用输入用户名和密码了。</p><h3 id="tips2"><a href="#tips2" class="headerlink" title="tips2"></a>tips2</h3><p>hexo admin可以配置用户名和密码，密码需要用bcrypt加密，方法如下。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BCryptDemo</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> 　　<span class="comment">// Hash a password for the first time</span></span><br><span class="line"> 　　　　String password = <span class="string">"testpassword"</span>;</span><br><span class="line">　　　　String hashed = BCrypt.hashpw(password, BCrypt.gensalt());</span><br><span class="line">　　　　System.out.println(hashed);</span><br><span class="line">　　<span class="comment">// gensalt's log_rounds parameter determines the complexity</span></span><br><span class="line">　　<span class="comment">// the work factor is 2**log_rounds, and the default is 10</span></span><br><span class="line">　　String hashed2 = BCrypt.hashpw(password, BCrypt.gensalt(<span class="number">12</span>));</span><br><span class="line"> </span><br><span class="line">　　<span class="comment">// Check that an unencrypted password matches one that has</span></span><br><span class="line">　　<span class="comment">// previously been hashed</span></span><br><span class="line">　　String candidate = <span class="string">"testpassword"</span>;</span><br><span class="line">　　<span class="comment">//String candidate = "wrongtestpassword";</span></span><br><span class="line">　　<span class="keyword">if</span> (BCrypt.checkpw(candidate, hashed))</span><br><span class="line">　　　　System.out.println(<span class="string">"It matches"</span>);</span><br><span class="line">　　<span class="keyword">else</span></span><br><span class="line">　　System.out.println(<span class="string">"It does not match"</span>);</span><br><span class="line">　　&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;这是一个坑&quot;&gt;&lt;a href=&quot;#这是一个坑&quot; class=&quot;headerlink&quot; title=&quot;这是一个坑&quot;&gt;&lt;/a&gt;这是一个坑&lt;/h3&gt;&lt;p&gt;安装方式我就不说了，就是按照网上说的那样，我主要说一下Deploy中的脚本怎么配置，网上都是类似这种&lt;/p&gt;
-&lt;bl
-      
+      &lt;h3 id=&quot;这是一个坑&quot;&gt;&lt;a href=&quot;#这是一个坑&quot; class=&quot;headerlink&quot; title=&quot;这是一个坑&quot;&gt;&lt;/a&gt;这是一个坑&lt;/h3&gt;&lt;p&gt;安装方式我就不说了，就是按照网上说的那样，我主要说一下Deploy中的脚本怎么配置，网上都是类似这种&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -98,18 +121,15 @@
     <link href="https://oldmee.github.io/2019/02/21/mysql-jdbc-driver-function/"/>
     <id>https://oldmee.github.io/2019/02/21/mysql-jdbc-driver-function/</id>
     <published>2019-02-21T04:56:51.000Z</published>
-    <updated>2019-02-25T03:16:32.250Z</updated>
+    <updated>2019-02-25T07:31:29.420Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="/2019/02/21/mysql-jdbc-driver-function/mysql.jpg" alt></p><blockquote><p>Talk is cheap，show me the code.</p><footer><strong>--老李</strong></footer></blockquote><p>Class.forName(“com.mysql.jdbc.Driver”).newInstance() （Java 9开始newInstance()就已经不赞成使用了）<br>等价于com.mysql.jdbc.Driver driver = new com.mysql.jdbc.Driver();</p><p>Class.forName()的作用是要求JVM查找并加载指定的类，也就是说JVM会执行该类的静态代码段（并没有创建新对象）</p><p>所以也可以这么写：com.mysql.jdbc.Driver driver = new com.mysql.jdbc.Driver();</p><p>再看看Driver的源码：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.mysql.jdbc</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Driver</span> <span class="keyword">extends</span> <span class="title">NonRegisteringDriver</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">sql</span>.<span class="title">Driver</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ~ Static fields/initializers</span></span><br><span class="line"><span class="comment">// --------------------------------------------- //</span></span><br><span class="line"><span class="comment">// Register ourselves with the DriverManager</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            java.sql.DriverManager.registerDriver(<span class="keyword">new</span> Driver());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException E) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Can't register driver!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// ~ Constructors   </span></span><br><span class="line"><span class="comment">// -----------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Construct a new driver and register it with DriverManager</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> SQLException if a database error occurs.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Driver</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// Required for Class.forName().newInstance()</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>根据下面三条规则：</p><p>1.当调用一个类的静态变量时，这个类中的静态代码块会执行。【只有静态代码块会执行】</p><p>2.当调用一个 类的静态方法时，这个类中的静态代码块会执行。【只有静态代码块会执行】</p><p>3.当创建一个 类的一个实例时，这个类中的静态代码块、非静态代码块（也叫构造代码块）、创建实例的相应的构造方法都会执行。</p><p>什么？还不明白？</p><p>Class.forName(“com.mysql.jdbc.Driver”);<br>String url = “jdbc:mysql://127.0.0.1/test?useUnicode=true&amp;characterEncoding=utf-8”;<br>String user = “”;<br>String psw = “”;<br>Connection con = DriverManager.getConnection(url,user,psw);<br>Class.forName就是触发static代码块中driver注册到DriverManager的行为，注册完了就可以随便调用了呗。</p>]]></content>
+    <content type="html"><![CDATA[<p><img src="/2019/02/21/mysql-jdbc-driver-function/mysql.jpg" alt></p><blockquote><p>Talk is cheap，show me the code.</p><footer><strong>--老李</strong></footer></blockquote><a id="more"></a><p>Class.forName(“com.mysql.jdbc.Driver”).newInstance() （Java 9开始newInstance()就已经不赞成使用了）<br>等价于com.mysql.jdbc.Driver driver = new com.mysql.jdbc.Driver();</p><p>Class.forName()的作用是要求JVM查找并加载指定的类，也就是说JVM会执行该类的静态代码段（并没有创建新对象）</p><p>所以也可以这么写：com.mysql.jdbc.Driver driver = new com.mysql.jdbc.Driver();</p><p>再看看Driver的源码：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.mysql.jdbc</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Driver</span> <span class="keyword">extends</span> <span class="title">NonRegisteringDriver</span> <span class="keyword">implements</span> <span class="title">java</span>.<span class="title">sql</span>.<span class="title">Driver</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ~ Static fields/initializers</span></span><br><span class="line"><span class="comment">// --------------------------------------------- //</span></span><br><span class="line"><span class="comment">// Register ourselves with the DriverManager</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            java.sql.DriverManager.registerDriver(<span class="keyword">new</span> Driver());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (SQLException E) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Can't register driver!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// ~ Constructors   </span></span><br><span class="line"><span class="comment">// -----------------------------------------------------------</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Construct a new driver and register it with DriverManager</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> SQLException if a database error occurs.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Driver</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// Required for Class.forName().newInstance()</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure><p>根据下面三条规则：</p><p>1.当调用一个类的静态变量时，这个类中的静态代码块会执行。【只有静态代码块会执行】</p><p>2.当调用一个 类的静态方法时，这个类中的静态代码块会执行。【只有静态代码块会执行】</p><p>3.当创建一个 类的一个实例时，这个类中的静态代码块、非静态代码块（也叫构造代码块）、创建实例的相应的构造方法都会执行。</p><p>什么？还不明白？</p><p>Class.forName(“com.mysql.jdbc.Driver”);<br>String url = “jdbc:mysql://127.0.0.1/test?useUnicode=true&amp;characterEncoding=utf-8”;<br>String user = “”;<br>String psw = “”;<br>Connection con = DriverManager.getConnection(url,user,psw);<br>Class.forName就是触发static代码块中driver注册到DriverManager的行为，注册完了就可以随便调用了呗。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;img src=&quot;/2019/02/21/mysql-jdbc-driver-function/mysql.jpg&quot; alt&gt;&lt;/p&gt;
+      &lt;p&gt;&lt;img src=&quot;/2019/02/21/mysql-jdbc-driver-function/mysql.jpg&quot; alt&gt;&lt;/p&gt;
 &lt;blockquote&gt;&lt;p&gt;Talk is cheap，show me the code.&lt;/p&gt;
-&lt;footer&gt;&lt;strong&gt;-
-      
+&lt;footer&gt;&lt;strong&gt;--老李&lt;/strong&gt;&lt;/footer&gt;&lt;/blockquote&gt;
     
     </summary>
     
@@ -119,21 +139,17 @@
   </entry>
   
   <entry>
-    <title>zookeeper</title>
+    <title>一秒钟搞懂分布式锁</title>
     <link href="https://oldmee.github.io/2019/02/21/zookeeper/"/>
     <id>https://oldmee.github.io/2019/02/21/zookeeper/</id>
     <published>2019-02-21T02:12:31.000Z</published>
-    <updated>2019-02-21T02:15:19.909Z</updated>
+    <updated>2019-02-25T07:32:20.322Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="分布式锁获取思路"><a href="#分布式锁获取思路" class="headerlink" title="分布式锁获取思路"></a>分布式锁获取思路</h3><p>a、在zookeeper指定节点（locker）下创建临时顺序节点。</p><p>b、客户端调用createNode方法在locker下创建临时顺序节点，然后调用getChildren(“locker”)来获取locker下面的所有子节点，注意此时不用设置任何Watcher。</p><p>c、客户端获取到所有的子节点path之后，如果发现自己创建的子节点序号最小，那么就认为该客户端获取到了锁。</p><p>d、如果发现自己创建的节点并非locker所有子节点中最小的，说明自己还没有获取到锁，此时客户端需要找到比自己小的那个节点，然后对其调用exist()方法，同时对其注册事件监听器。</p><p>e、之后，如果这个被关注的节点被删除了（释放锁的时候会删除该节点），则客户端的Watcher会收到相应通知，此时再次判断自己创建的节点是否是locker子节点中序号最小的，如果是则获取到了锁，如果不是则重复以上步骤继续获取到比自己小的一个节点并注册监听。</p>]]></content>
+    <content type="html"><![CDATA[<p>怎么可能一秒钟，起码得一分钟吧~<br><a id="more"></a></p><h3 id="分布式锁获取思路"><a href="#分布式锁获取思路" class="headerlink" title="分布式锁获取思路"></a>分布式锁获取思路</h3><p>a、在zookeeper指定节点（locker）下创建临时顺序节点。</p><p>b、客户端调用createNode方法在locker下创建临时顺序节点，然后调用getChildren(“locker”)来获取locker下面的所有子节点，注意此时不用设置任何Watcher。</p><p>c、客户端获取到所有的子节点path之后，如果发现自己创建的子节点序号最小，那么就认为该客户端获取到了锁。</p><p>d、如果发现自己创建的节点并非locker所有子节点中最小的，说明自己还没有获取到锁，此时客户端需要找到比自己小的那个节点，然后对其调用exist()方法，同时对其注册事件监听器。</p><p>e、之后，如果这个被关注的节点被删除了（释放锁的时候会删除该节点），则客户端的Watcher会收到相应通知，此时再次判断自己创建的节点是否是locker子节点中序号最小的，如果是则获取到了锁，如果不是则重复以上步骤继续获取到比自己小的一个节点并注册监听。</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;分布式锁获取思路&quot;&gt;&lt;a href=&quot;#分布式锁获取思路&quot; class=&quot;headerlink&quot; title=&quot;分布式锁获取思路&quot;&gt;&lt;/a&gt;分布式锁获取思路&lt;/h3&gt;&lt;p&gt;a、在zookeeper指定节点（locker）下创建临时顺序节点。&lt;/p&gt;
-&lt;p&gt;b、客户
-      
+      &lt;p&gt;怎么可能一秒钟，起码得一分钟吧~&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -144,19 +160,16 @@
   
   <entry>
     <title>我的半生感悟</title>
-    <link href="https://oldmee.github.io/2018/02/10/myLife/"/>
-    <id>https://oldmee.github.io/2018/02/10/myLife/</id>
-    <published>2018-02-10T02:09:27.000Z</published>
-    <updated>2019-02-21T02:35:35.310Z</updated>
+    <link href="https://oldmee.github.io/2019/02/12/myLife/"/>
+    <id>https://oldmee.github.io/2019/02/12/myLife/</id>
+    <published>2019-02-12T02:09:00.000Z</published>
+    <updated>2019-02-25T07:32:53.201Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="中年"><a href="#中年" class="headerlink" title="中年"></a>中年</h3><p>人到中年，有很多想法，也有很多困惑，今天是2019年第一天上班，本来说要昨天做个总结的，但是昨天不知道干嘛了，这个总结也是昨天突然想写的，今天补上吧（其实平时有很多想法都是灵光一闪，想记录着的，但是就是没记）。</p><h3 id="家庭"><a href="#家庭" class="headerlink" title="家庭"></a>家庭</h3><p>关于家庭，感觉自己就像处在沼泽中在使劲挣扎着，特别不想动，累吗？好像也不是特别累，但就是不想动，又不得不动，给自己下个总结，就是人懒但是现在已经不是一个人了，拖家带口的，还得照顾家庭，所以还得挣扎，但是很不情愿，不情愿也没办法，人活在世总得担责任嘛。</p><h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p>关于工作，越来越觉得上班是一件性价比极低的事情，在杭州干软件可能年薪二十到三十万就是一个坎了，往上升的途径应该很窄（我说的的大概率情况，开挂的情况不在我说的范围内，因为我就是一个普通的不能再普通的人了，没有幻想着开挂也没有幻想中500万大奖），把我未来的黄金10年重心都放在工作上，想想就可惜，主要是上班工作本质上是拿时间换钱，一种等价交换，时间没了就换不回钱了，不可能有任何积累，没有积累就不会有延续，就像买了瓶汽水喝完就没了，现在满脑子想的是怎么打造一个赚钱的机器，有了机器会轻松很多，虽然需要时不时的去维护一下，但是机器可以传承延续啊，还可以再打造别的机器啊，这样的人生岂不是更有趣一些，当然想法是美好的现实是残酷的，实现这个想法的前提是要有基本的生活保障，突然想人要是不吃饭，光靠光合作用就能活下去多好。</p><h3 id="困惑"><a href="#困惑" class="headerlink" title="困惑"></a>困惑</h3><p>关于困惑，有时候幻想自己已经不再为衣食住行发愁了，我下一步要干啥呢，每天看看电影，世界各地走走？嗯，刚开始可能还新鲜，但是3年以后，5年以后呢，一直这样吗，那多无聊啊，看新闻说郭涛15岁看了终结者后就想拍一部自己的科幻电影，直到今年流浪地球拍出来了，过程当然比较坎坷，但是梦想还是实现了，关于困惑我想说的是我就好像没有啥特别爱好，这是我比较困惑的地方，高晓松说，40不惑就是40岁以后不是没有惑了，而是40岁以后想不明白事就不去想了。我不知道我15岁想要啥，但是我知道我12岁想要啥，为啥是12岁呢，因为一轮生肖都走了一圈，那天家里给买了个大蛋糕还许了愿，当时许的愿就是能有一台打游戏的vcd，因为当时有个广告天天播，又能打游戏又能看电影的一台机器，一想到又能打游戏又能看电影真好，所以就许了这么一个愿望，虽然后来没得到这么一台机器，但是后来上大学我有了电脑啊，大概10年，这也算是愿望实现了吧。</p><h3 id="买房"><a href="#买房" class="headerlink" title="买房"></a>买房</h3><p>关于买房，12岁以后就没有什么特别大的愿望了，甚至大学里都没有什么想法，直到毕业后刚上班有工资了后就是特别想攒一笔10万人民币，当时也没想着拿这10万去干啥干啥，就想着有个目标呗，毕业也快10年了，这10万具体是啥时候攒起来不记得了，只记得15年年底已经到处跑着看房子了，当时也没想着买，就是看看，现在想想15年好像已经有10万了，但是离买的起还差20万，所以只是看看，想得是还得攒2年钱，结果16年9月份G20之后房价像火箭一样，之前看过的房17年10月份再挨个问过去房价都翻倍了，安安心心攒了一年钱，再去看的时候傻眼了，买房一下子提上日程了，看了一圈后，发现要想买房，必须降低自己原来的期望值（原来看的都是100坪左右的，小区环境比较好的），16年底看中的一套105平方2手房，首付加各种费35万拿不出来，最后只好作罢，直到17年3月份36万首付买了80个平的二手，真是一路的心酸，通过这次买房一下打破了固有思维（一直想一步到位然后住一辈子，现在不这么想了，现在想的是多大能力办多大事，而且房子过10年后开始变旧，而新的格局更好的产品也会开发出来），以后就是想着隔10年换一次房（卖旧买新）。 </p><h3 id="感悟"><a href="#感悟" class="headerlink" title="感悟"></a>感悟</h3><p>一些感悟，每个人都有瓶颈，上升到一定阶段后很难突破，就像父辈一样，他们已经完成了他们的使命，而我现在来到了瓶颈地，延续老的思维已经很难上升了，该想着怎么打破现状继续前行，如果打不破，我现在的状态就是下一代的起点。</p><h3 id="未来"><a href="#未来" class="headerlink" title="未来"></a>未来</h3><p>关于未来，生活还要继续。。。</p><p>by 花蝴蝶</p>]]></content>
+    <content type="html"><![CDATA[<p>学平上了年纪，有很多话要说……<br><a id="more"></a></p><h3 id="中年"><a href="#中年" class="headerlink" title="中年"></a>中年</h3><p>人到中年，有很多想法，也有很多困惑，今天是2019年第一天上班，本来说要昨天做个总结的，但是昨天不知道干嘛了，这个总结也是昨天突然想写的，今天补上吧（其实平时有很多想法都是灵光一闪，想记录着的，但是就是没记）。</p><h3 id="家庭"><a href="#家庭" class="headerlink" title="家庭"></a>家庭</h3><p>关于家庭，感觉自己就像处在沼泽中在使劲挣扎着，特别不想动，累吗？好像也不是特别累，但就是不想动，又不得不动，给自己下个总结，就是人懒但是现在已经不是一个人了，拖家带口的，还得照顾家庭，所以还得挣扎，但是很不情愿，不情愿也没办法，人活在世总得担责任嘛。</p><h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p>关于工作，越来越觉得上班是一件性价比极低的事情，在杭州干软件可能年薪二十到三十万就是一个坎了，往上升的途径应该很窄（我说的的大概率情况，开挂的情况不在我说的范围内，因为我就是一个普通的不能再普通的人了，没有幻想着开挂也没有幻想中500万大奖），把我未来的黄金10年重心都放在工作上，想想就可惜，主要是上班工作本质上是拿时间换钱，一种等价交换，时间没了就换不回钱了，不可能有任何积累，没有积累就不会有延续，就像买了瓶汽水喝完就没了，现在满脑子想的是怎么打造一个赚钱的机器，有了机器会轻松很多，虽然需要时不时的去维护一下，但是机器可以传承延续啊，还可以再打造别的机器啊，这样的人生岂不是更有趣一些，当然想法是美好的现实是残酷的，实现这个想法的前提是要有基本的生活保障，突然想人要是不吃饭，光靠光合作用就能活下去多好。</p><h3 id="困惑"><a href="#困惑" class="headerlink" title="困惑"></a>困惑</h3><p>关于困惑，有时候幻想自己已经不再为衣食住行发愁了，我下一步要干啥呢，每天看看电影，世界各地走走？嗯，刚开始可能还新鲜，但是3年以后，5年以后呢，一直这样吗，那多无聊啊，看新闻说郭涛15岁看了终结者后就想拍一部自己的科幻电影，直到今年流浪地球拍出来了，过程当然比较坎坷，但是梦想还是实现了，关于困惑我想说的是我就好像没有啥特别爱好，这是我比较困惑的地方，高晓松说，40不惑就是40岁以后不是没有惑了，而是40岁以后想不明白事就不去想了。我不知道我15岁想要啥，但是我知道我12岁想要啥，为啥是12岁呢，因为一轮生肖都走了一圈，那天家里给买了个大蛋糕还许了愿，当时许的愿就是能有一台打游戏的vcd，因为当时有个广告天天播，又能打游戏又能看电影的一台机器，一想到又能打游戏又能看电影真好，所以就许了这么一个愿望，虽然后来没得到这么一台机器，但是后来上大学我有了电脑啊，大概10年，这也算是愿望实现了吧。</p><h3 id="买房"><a href="#买房" class="headerlink" title="买房"></a>买房</h3><p>关于买房，12岁以后就没有什么特别大的愿望了，甚至大学里都没有什么想法，直到毕业后刚上班有工资了后就是特别想攒一笔10万人民币，当时也没想着拿这10万去干啥干啥，就想着有个目标呗，毕业也快10年了，这10万具体是啥时候攒起来不记得了，只记得15年年底已经到处跑着看房子了，当时也没想着买，就是看看，现在想想15年好像已经有10万了，但是离买的起还差20万，所以只是看看，想得是还得攒2年钱，结果16年9月份G20之后房价像火箭一样，之前看过的房17年10月份再挨个问过去房价都翻倍了，安安心心攒了一年钱，再去看的时候傻眼了，买房一下子提上日程了，看了一圈后，发现要想买房，必须降低自己原来的期望值（原来看的都是100坪左右的，小区环境比较好的），16年底看中的一套105平方2手房，首付加各种费35万拿不出来，最后只好作罢，直到17年3月份36万首付买了80个平的二手，真是一路的心酸，通过这次买房一下打破了固有思维（一直想一步到位然后住一辈子，现在不这么想了，现在想的是多大能力办多大事，而且房子过10年后开始变旧，而新的格局更好的产品也会开发出来），以后就是想着隔10年换一次房（卖旧买新）。 </p><h3 id="感悟"><a href="#感悟" class="headerlink" title="感悟"></a>感悟</h3><p>一些感悟，每个人都有瓶颈，上升到一定阶段后很难突破，就像父辈一样，他们已经完成了他们的使命，而我现在来到了瓶颈地，延续老的思维已经很难上升了，该想着怎么打破现状继续前行，如果打不破，我现在的状态就是下一代的起点。</p><h3 id="未来"><a href="#未来" class="headerlink" title="未来"></a>未来</h3><p>关于未来，生活还要继续。。。</p><p>by 花蝴蝶</p>]]></content>
     
     <summary type="html">
     
-      
-      
-        &lt;h3 id=&quot;中年&quot;&gt;&lt;a href=&quot;#中年&quot; class=&quot;headerlink&quot; title=&quot;中年&quot;&gt;&lt;/a&gt;中年&lt;/h3&gt;&lt;p&gt;人到中年，有很多想法，也有很多困惑，今天是2019年第一天上班，本来说要昨天做个总结的，但是昨天不知道干嘛了，这个总结也是昨天突然想写的，今
-      
+      &lt;p&gt;学平上了年纪，有很多话要说……&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
