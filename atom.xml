@@ -235,13 +235,38 @@
   </entry>
   
   <entry>
-    <title>2018-null</title>
-    <link href="https://oldmee.github.io/2018/02/26/2018-null/"/>
-    <id>https://oldmee.github.io/2018/02/26/2018-null/</id>
-    <published>2018-02-25T16:22:00.000Z</published>
-    <updated>2019-02-26T01:32:07.811Z</updated>
+    <title>Hystrix 的线程池隔离和信号量隔离</title>
+    <link href="https://oldmee.github.io/2018/02/26/Hystrix-isolation/"/>
+    <id>https://oldmee.github.io/2018/02/26/Hystrix-isolation/</id>
+    <published>2018-02-26T10:38:00.000Z</published>
+    <updated>2019-02-26T11:04:42.780Z</updated>
+    
+    <content type="html"><![CDATA[<p>信号量的隔离：<br> it executes on the calling thread and concurrent requests are limited by the semaphore count.</p><p>每次调用线程，当前请求通过计数信号量进行限制，当信号大于了最大请求数（maxConcurrentRequests）时，进行限制，调用fallback接口快速返回。<br><a id="more"></a></p><p><img src="/2018/02/26/Hystrix-isolation/Hystrix_02.jpg" alt></p><p>最重要的是，信号量的调用是同步的，也就是说，每次调用都得阻塞调用方的线程，直到结果返回。这样就导致了无法对访问做超时（只能依靠调用协议超时，无法主动释放）</p><p>官网对信号量隔离的描述建议</p><p>Generally the only time you should use semaphore isolation for HystrixCommands is when the call is so high volume (hundreds per second, per instance) that the overhead of separate threads is too high; this typically only applies to non-network calls.</p><p>隔离的细粒度太高，数百个实例需要隔离，此时用线程池做隔离开销过大通常这种都是非网络调用的情况下线程池隔离:<br>it executes on a separate thread and concurrent requests are limited by the number of threads in the thread-pool<br>通过每次都开启一个单独线程运行。它的隔离是通过线程池，即每个隔离粒度都是个线程池，互相不干扰</p><p>Commands executed in threads have an extra layer of protection against latencies beyond what network timeouts can offer.<br>线程池隔离方式，等于多了一层的保护措施，可以通过hytrix直接设置超时，超时后直接返回。</p><p><img src="/2018/02/26/Hystrix-isolation/Hystrix_01.jpg" alt></p><p>最后总结对比下：</p><table><thead><tr><th style="text-align:center">隔离方式</th><th style="text-align:center">是否支持超时</th><th style="text-align:center">是否支持熔断</th><th style="text-align:center">隔离原理</th><th style="text-align:center">是否是异步调用</th><th style="text-align:center">资源消耗</th></tr></thead><tbody><tr><td style="text-align:center">线程池隔离</td><td style="text-align:center">支持,可直接返回</td><td style="text-align:center">支持,当线程池到达maxSize后,再请求会触发fallback接口进行熔断</td><td style="text-align:center">每个服务单独用线程池</td><td style="text-align:center">可以是异步,也可以是同步。看调用的方法</td><td style="text-align:center">大,大量线程的上下文切换，容易造成机器负载高</td></tr><tr><td style="text-align:center">信号量隔离</td><td style="text-align:center">不支持,如果阻塞，只能通过调用协议（如:socket超时才能返回）</td><td style="text-align:center">支持，当信号量达到maxConcurrentRequests后。再请求会触发fallback</td><td style="text-align:center">通过信号量的计数器</td><td style="text-align:center">同步调用,不支持异步</td><td style="text-align:center">小,只是个计数器</td></tr></tbody></table>]]></content>
     
     <summary type="html">
+    
+      &lt;p&gt;信号量的隔离：&lt;br&gt; it executes on the calling thread and concurrent requests are limited by the semaphore count.&lt;/p&gt;
+&lt;p&gt;每次调用线程，当前请求通过计数信号量进行限制，当信号大于了最大请求数（maxConcurrentRequests）时，进行限制，调用fallback接口快速返回。&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="spring cloud" scheme="https://oldmee.github.io/tags/spring-cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Beanstalk（内存队列）</title>
+    <link href="https://oldmee.github.io/2018/02/26/Beanstalk/"/>
+    <id>https://oldmee.github.io/2018/02/26/Beanstalk/</id>
+    <published>2018-02-25T16:22:00.000Z</published>
+    <updated>2019-02-26T09:15:09.314Z</updated>
+    
+    <content type="html"><![CDATA[<p>Beanstalk是一个高性能、轻量级的、分布式的、内存型的消息队列系统。最初设计的目的是想通过后台异步执行耗时的任务来降低高容量Web应用系统的页面访问延迟。其实Beanstalkd是典型的类Memcached设计，协议和使用方式都是同样的风格。其基本设计思想很简单：高性能离不开异步，异步离不开队列，而内部都是生产者-消费者模式的。<br><a id="more"></a></p><h3 id="Beanstalk介绍："><a href="#Beanstalk介绍：" class="headerlink" title="Beanstalk介绍："></a>Beanstalk介绍：</h3><p>　　那下面开始说beanstalk了。首先说beanstalk其实并不是JMS规范的，也并不严格遵守AMQP协议。有人说Beanstalk之于RabbitMQ，就好比Nginx之于Apache。它更简单，轻量级，高性能，易使用。但是相比kafka，数据处理能力还是有差距，所以我们现在其实在逐渐替代它。但它有些很易用的特殊功能，后面会讲到。</p><p>　　Beanstalk主要包括4个部分。</p><p>　　1&gt; job:一个需要异步处理的任务，需要放在一个tube中。</p><p>　　2&gt; tube:一个有名的任务队列，用来存储统一类型的job，是producer和consumer操作的对象。</p><p>　　3&gt; producer:job的生产者，通过put命令来将一个job放到一个tube中。</p><p>　　4&gt; consumer:job的消费者，通过reserve、release、bury、delete命令来获取job或改变job的状态。</p><p>　　刚才说Beanstalk有一些特殊的好用功能。那就是它支持任务优先级(priority)、延时(delay)、超时重发(time-to-run)和预留(buried)，能够很好的支持分布式的后台任务和定时任务处理。这些特性是和beanstalk工作过程密切相关。</p><p>　　Beanstalk的一个job的生命周期有READY、RESERVED、DELAYED、BURIED四种。</p><p>　　当producer直接put一个job时，job就是READY状态，等待consumer来处理。如果选择延迟put，job就先到DELAYED状态，到指定时间再READY。consumer获取了READY的job，此状态就为RESERVED。这样其他consumer不能再操作此job。当consumer完成该job后，可以选择delete、release或者bury。</p><p>　　delete之后，job不能再获取。release的job可以重新迁移或延迟迁移回READY。bury的job可以被休眠，需要的时候再READY或者delete掉。</p><h3 id="Beanstalk使用场景："><a href="#Beanstalk使用场景：" class="headerlink" title="Beanstalk使用场景："></a>Beanstalk使用场景：</h3><p>　　用作延时队列：比如可以用于如果用户30分钟内不操作，任务关闭。</p><p>　　用作循环队列：用release命令可以循环执行任务，比如可以做负载均衡任务分发。</p><p>　　用作兜底机制：比如一个请求有失败的概率，可以用Beanstalk不断重试，设定超时时间，时间内尝试到成功为止。</p><p>　　用作定时任务：比如可以用于专门的后台任务。</p><p>　　用作异步操作：这是所有消息队列都最常用的，先将任务仍进去，顺序执行。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Beanstalk是一个高性能、轻量级的、分布式的、内存型的消息队列系统。最初设计的目的是想通过后台异步执行耗时的任务来降低高容量Web应用系统的页面访问延迟。其实Beanstalkd是典型的类Memcached设计，协议和使用方式都是同样的风格。其基本设计思想很简单：高性能离不开异步，异步离不开队列，而内部都是生产者-消费者模式的。&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
@@ -288,16 +313,22 @@
   </entry>
   
   <entry>
-    <title>2015-null</title>
-    <link href="https://oldmee.github.io/2015/02/26/2015-null/"/>
-    <id>https://oldmee.github.io/2015/02/26/2015-null/</id>
+    <title>RPC框架原理</title>
+    <link href="https://oldmee.github.io/2015/02/26/RPC/"/>
+    <id>https://oldmee.github.io/2015/02/26/RPC/</id>
     <published>2015-02-25T16:21:00.000Z</published>
-    <updated>2019-02-26T01:32:07.811Z</updated>
+    <updated>2019-02-26T10:09:58.377Z</updated>
+    
+    <content type="html"><![CDATA[<p>所以我给大家一个建议，遇到这类问题，起码从你了解的类似框架的原理入手，自己说说参照 dubbo 的原理，你来设计一下，举个例子，dubbo 不是有那么多分层么？而且每个分层是干啥的，你大概是不是知道？那就按照这个思路大致说一下吧，起码你不能懵逼，要比那些上来就懵，啥也说不出来的人要好一些。<br><a id="more"></a><br>举个栗子，我给大家说个最简单的回答思路：</p><ul><li>上来你的服务就得去注册中心注册吧，你是不是得有个注册中心，保留各个服务的信心，可以用 zookeeper 来做，对吧。</li><li>然后你的消费者需要去注册中心拿对应的服务信息吧，对吧，而且每个服务可能会存在于多台机器上。</li><li>接着你就该发起一次请求了，咋发起？当然是基于动态代理了，你面向接口获取到一个动态代理，这个动态代理就是接口在本地的一个代理，然后这个代理会找到服务对应的机器地址。</li><li>然后找哪个机器发送请求？那肯定得有个负载均衡算法了，比如最简单的可以随机轮询是不是。</li><li>接着找到一台机器，就可以跟它发送请求了，第一个问题咋发送？你可以说用 netty 了，nio 方式；第二个问题发送啥格式数据？你可以说用 hessian 序列化协议了，或者是别的，对吧。然后请求过去了。</li><li>服务器那边一样的，需要针对你自己的服务生成一个动态代理，监听某个网络端口了，然后代理你本地的服务代码。接收到请求的时候，就调用对应的服务代码，对吧。</li></ul><p>这就是一个最最基本的 rpc 框架的思路，先不说你有多牛逼的技术功底，哪怕这个最简单的思路你先给出来行不行？</p>]]></content>
     
     <summary type="html">
     
+      &lt;p&gt;所以我给大家一个建议，遇到这类问题，起码从你了解的类似框架的原理入手，自己说说参照 dubbo 的原理，你来设计一下，举个例子，dubbo 不是有那么多分层么？而且每个分层是干啥的，你大概是不是知道？那就按照这个思路大致说一下吧，起码你不能懵逼，要比那些上来就懵，啥也说不出来的人要好一些。&lt;br&gt;&lt;/p&gt;
+    
     </summary>
     
+    
+      <category term="微服务" scheme="https://oldmee.github.io/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"/>
     
   </entry>
   

@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://oldmee.github.io/2018/02/26/Hystrix-isolation/</loc>
+    
+    <lastmod>2019-02-26T11:04:42.780Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://oldmee.github.io/2015/02/26/RPC/</loc>
+    
+    <lastmod>2019-02-26T10:09:58.377Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://oldmee.github.io/2018/02/26/Beanstalk/</loc>
+    
+    <lastmod>2019-02-26T09:15:09.314Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://oldmee.github.io/2017/02/26/Spring-REST-Docs/</loc>
     
     <lastmod>2019-02-26T06:49:42.237Z</lastmod>
@@ -38,20 +59,6 @@
   
   <url>
     <loc>https://oldmee.github.io/2019/02/26/chain-of-responsibility-pattern/</loc>
-    
-    <lastmod>2019-02-26T01:32:07.811Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://oldmee.github.io/2018/02/26/2018-null/</loc>
-    
-    <lastmod>2019-02-26T01:32:07.811Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://oldmee.github.io/2015/02/26/2015-null/</loc>
     
     <lastmod>2019-02-26T01:32:07.811Z</lastmod>
     
