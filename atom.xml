@@ -333,13 +333,17 @@
   </entry>
   
   <entry>
-    <title>2014-null</title>
-    <link href="https://oldmee.github.io/2014/02/26/2014-null/"/>
-    <id>https://oldmee.github.io/2014/02/26/2014-null/</id>
+    <title>倒排索引简介</title>
+    <link href="https://oldmee.github.io/2014/02/26/sort/"/>
+    <id>https://oldmee.github.io/2014/02/26/sort/</id>
     <published>2014-02-25T16:20:00.000Z</published>
-    <updated>2019-02-26T01:32:07.810Z</updated>
+    <updated>2019-03-01T02:58:58.547Z</updated>
+    
+    <content type="html"><![CDATA[<p>正排索引就是扫描所有的文档，然后匹配文档关键字。<br>倒排索引就是只搜索你要查询的关键字，看看跟这个关键字相关的文档有哪些。<br><a id="more"></a></p><p>正排索引就是好维护，因为要扫描所有文档，速度太慢。<br>倒排索引就是扫描快，不用全局扫描，维护要比正排复杂点。</p><p>来一张倒排索引的原理图：</p><p><img src="/2014/02/26/sort/sort01.png" alt></p>]]></content>
     
     <summary type="html">
+    
+      &lt;p&gt;正排索引就是扫描所有的文档，然后匹配文档关键字。&lt;br&gt;倒排索引就是只搜索你要查询的关键字，看看跟这个关键字相关的文档有哪些。&lt;br&gt;&lt;/p&gt;
     
     </summary>
     
