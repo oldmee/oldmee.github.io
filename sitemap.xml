@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://oldmee.github.io/2016/12/08/qiniu-CDN/</loc>
+    
+    <lastmod>2019-03-02T06:10:16.728Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://oldmee.github.io/2018/09/12/distributed-transaction/</loc>
+    
+    <lastmod>2019-03-02T06:06:03.090Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://oldmee.github.io/2017/03/01/netty/</loc>
     
     <lastmod>2019-03-01T10:45:11.000Z</lastmod>
@@ -58,21 +72,14 @@
   </url>
   
   <url>
-    <loc>https://oldmee.github.io/2016/12/08/qiniu-CDN/</loc>
-    
-    <lastmod>2019-02-26T02:51:23.831Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://oldmee.github.io/2019/02/25/protocol-buffers/</loc>
+    <loc>https://oldmee.github.io/2019/02/25/hexo-bugs-000/</loc>
     
     <lastmod>2019-02-26T01:32:07.812Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://oldmee.github.io/2019/02/25/hexo-bugs-000/</loc>
+    <loc>https://oldmee.github.io/2019/02/25/protocol-buffers/</loc>
     
     <lastmod>2019-02-26T01:32:07.812Z</lastmod>
     
