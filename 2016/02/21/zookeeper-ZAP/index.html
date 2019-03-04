@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en-us"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> zookeeper之ZAP协议 · oldmee</title><meta name="description" content="zookeeper之ZAP协议 - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">zookeeper之ZAP协议</h1><div class="post-info">Mar 4, 2019</div><div class="post-content"><h3 id="ZAB协议介绍"><a href="#ZAB协议介绍" class="headerlink" title="ZAB协议介绍"></a>ZAB协议介绍</h3><p>ZAB协议包含两种基本模式，分别是：</p>
+<!DOCTYPE html><html lang="en-us"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> zookeeper之ZAB协议 · oldmee</title><meta name="description" content="zookeeper之ZAB协议 - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">zookeeper之ZAB协议</h1><div class="post-info">Feb 21, 2016</div><div class="post-content"><p>既然说到了zookeeper，那就再来聊聊ZAB（Zookeeper Atomic Broadcast）协议吧。<br><a id="more"></a></p>
+<h3 id="ZAB协议介绍"><a href="#ZAB协议介绍" class="headerlink" title="ZAB协议介绍"></a>ZAB协议介绍</h3><p>ZAB协议包含两种基本模式，分别是：</p>
 <ol>
 <li>崩溃恢复之数据恢复 </li>
 <li>消息广播之原子广播 </li>
@@ -31,17 +32,17 @@
 <li>启动一个zookeeper集群。 </li>
 <li>在 /tmp/zookeeper/VERSION-2 路径下会看到一个currentEpoch文件，文件中显示的是当前的epoch。</li>
 </ol>
-<p><img src="/2019/03/04/zookeeper-ZAP/ZAB_00.png" alt></p>
+<p><img src="/2016/02/21/zookeeper-ZAP/ZAB_00.png" alt></p>
 <ol start="3">
 <li><p>把leader节点停机，这个时候在看currentEpoch会发生变化。 随着每次选举新的leader，epoch都会发生变化。 </p>
 <ol>
-<li><p>先找到leader节点<br><img src="/2019/03/04/zookeeper-ZAP/ZAB_01.png" alt></p>
+<li><p>先找到leader节点<br><img src="/2016/02/21/zookeeper-ZAP/ZAB_01.png" alt></p>
 </li>
-<li><p>停止leader节点的服务<br><img src="/2019/03/04/zookeeper-ZAP/ZAB_02.png" alt></p>
+<li><p>停止leader节点的服务<br><img src="/2016/02/21/zookeeper-ZAP/ZAB_02.png" alt></p>
 </li>
-<li><p>查看当前epoch号的变化（epoch号由原来的6变为7）<br><img src="/2019/03/04/zookeeper-ZAP/ZAB_03.png" alt></p>
-</li>
-</ol>
+<li><p>查看当前epoch号的变化（epoch号由原来的6变为7）<br><img src="/2016/02/21/zookeeper-ZAP/ZAB_03.png" alt></p>
 </li>
 </ol>
-</div></article></div></main><footer><div class="paginator"><a href="/2019/02/26/chain-of-responsibility-pattern/" class="next">NEXT</a></div><div class="copyright"><p>© 2012 - 2019 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
+</li>
+</ol>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/12/08/qiniu-CDN/" class="prev">上一篇</a><a href="/2016/02/21/zookeeper/" class="next">下一篇</a></div><div class="copyright"><p>© 2012 - 2019 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
