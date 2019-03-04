@@ -34,10 +34,8 @@
 <h3 id="测试epoch的变化"><a href="#测试epoch的变化" class="headerlink" title="测试epoch的变化"></a>测试epoch的变化</h3><p>要测试epoch的变化可以做一个简单的实验： </p>
 <ol>
 <li>启动一个zookeeper集群。 </li>
-<li>在 /tmp/zookeeper/VERSION-2 路径下会看到一个currentEpoch文件，文件中显示的是当前的epoch。</li>
-</ol>
-<p><img src="/2016/02/21/zookeeper-ZAP/ZAB_00.png" alt></p>
-<ol start="3">
+<li><p>在 /tmp/zookeeper/VERSION-2 路径下会看到一个currentEpoch文件，文件中显示的是当前的epoch。<br><img src="/2016/02/21/zookeeper-ZAP/ZAB_00.png" alt></p>
+</li>
 <li><p>把leader节点停机，这个时候再看currentEpoch会发生变化。 随着每次选举新的leader，epoch都会发生变化。 </p>
 <ol>
 <li><p>先找到leader节点<br><img src="/2016/02/21/zookeeper-ZAP/ZAB_01.png" alt></p>
