@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://oldmee.github.io/2013/03/05/Cross-Domain/</loc>
+    
+    <lastmod>2019-03-05T05:41:55.588Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://oldmee.github.io/2018/12/10/JSON-Web-Token/</loc>
+    
+    <lastmod>2019-03-05T03:01:48.353Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://oldmee.github.io/2012/03/04/atement-PreparedStatement/</loc>
     
     <lastmod>2019-03-04T10:03:41.892Z</lastmod>
@@ -107,14 +121,14 @@
   </url>
   
   <url>
-    <loc>https://oldmee.github.io/2019/02/25/hexo-bugs-000/</loc>
+    <loc>https://oldmee.github.io/2019/02/25/protocol-buffers/</loc>
     
     <lastmod>2019-02-26T01:32:07.812Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://oldmee.github.io/2019/02/25/protocol-buffers/</loc>
+    <loc>https://oldmee.github.io/2019/02/25/hexo-bugs-000/</loc>
     
     <lastmod>2019-02-26T01:32:07.812Z</lastmod>
     
