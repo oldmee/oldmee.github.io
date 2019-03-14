@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://oldmee.github.io/"/>
-  <updated>2019-03-14T01:45:49.999Z</updated>
+  <updated>2019-02-26T01:32:07.811Z</updated>
   <id>https://oldmee.github.io/</id>
   
   <author>
@@ -15,25 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>我们都一样</title>
-    <link href="https://oldmee.github.io/2019/03/14/we-are-pool-together/"/>
-    <id>https://oldmee.github.io/2019/03/14/we-are-pool-together/</id>
-    <published>2019-03-14T01:39:33.000Z</published>
-    <updated>2019-03-14T01:45:49.999Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>我做了一个梦，很梦幻的梦，醒来之后才发现，这只是世界跟我开的一个玩笑，更加可笑的是他跟很多人都开了同一个玩笑。</p></blockquote><a id="more"></a><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=2060043174&auto=1&height=66"></iframe><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=2058854295&auto=1&height=66"></iframe><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=2058262105&auto=1&height=66"></iframe><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=2057416000&auto=1&height=66"></iframe>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;&lt;p&gt;我做了一个梦，很梦幻的梦，醒来之后才发现，这只是世界跟我开的一个玩笑，更加可笑的是他跟很多人都开了同一个玩笑。&lt;/p&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>责任链模式</title>
@@ -295,6 +276,27 @@
       <category term="分布式" scheme="https://oldmee.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
     
       <category term="事务" scheme="https://oldmee.github.io/tags/%E4%BA%8B%E5%8A%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我们都一样</title>
+    <link href="https://oldmee.github.io/2018/06/12/we-are-pool-together/"/>
+    <id>https://oldmee.github.io/2018/06/12/we-are-pool-together/</id>
+    <published>2018-06-12T01:39:00.000Z</published>
+    <updated>2019-03-14T01:48:50.327Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>我做了一个梦，很梦幻的梦，醒来之后才发现，这只是世界跟我开的一个玩笑，更加可笑的是他跟很多人都开了同一个玩笑。</p></blockquote><a id="more"></a><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=2060043174&auto=1&height=66"></iframe><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=2058854295&auto=1&height=66"></iframe><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=2058262105&auto=1&height=66"></iframe><iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=3&id=2057416000&auto=1&height=66"></iframe>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;&lt;p&gt;我做了一个梦，很梦幻的梦，醒来之后才发现，这只是世界跟我开的一个玩笑，更加可笑的是他跟很多人都开了同一个玩笑。&lt;/p&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+    
+      <category term="人生" scheme="https://oldmee.github.io/tags/%E4%BA%BA%E7%94%9F/"/>
     
   </entry>
   
