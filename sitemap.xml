@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://oldmee.github.io/2016/09/22/Java-singleton-five-methon/</loc>
+    
+    <lastmod>2019-03-22T04:59:42.643Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://oldmee.github.io/2017/03/19/Bloom-Filter/</loc>
+    
+    <lastmod>2019-03-19T09:36:02.777Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://oldmee.github.io/2017/03/17/spring-security-oauth2-SSO/</loc>
     
     <lastmod>2019-03-18T03:29:16.569Z</lastmod>
