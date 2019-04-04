@@ -40,4 +40,8 @@
 <li>发送握手响应头：检测是否是wss协议连接，如果是就是用TLS握手连接，否则就是普通连接。服务器可以添加额外的验证信息到客户端进行验证。当进行一系列验证之后，服务器必须返回一个有效的HTTP响应头。响应头中每一行一个字段，结束必须为“\r\n”，使用的ABNF语法。</li>
 </ul>
 <p>除了上述必要头字段之外，其他的HTTP协议定义的字段都可以使用，如Set-Cookie等。</p>
+<h3 id="WebSocket不实行同源政策"><a href="#WebSocket不实行同源政策" class="headerlink" title="WebSocket不实行同源政策"></a>WebSocket不实行同源政策</h3><p>WebSocket协议的目标是在一个独立的持久连接上提供全双工双向通信。客户端和服务器可以向对方主动发送和接受数据。在JS中创建WebSocket后，会有一个HTTP请求发向浏览器以发起请求。在取得服务器响应后，建立的连接会使用HTTP升级将HTTP协议转换为WebSocket协议。也就是说，使用标准的HTTP协议无法实现WebSocket，只有支持那些协议的专门浏览器才能正常工作。</p>
+<p>由于WebScoket使用了自定义协议，所以URL与HTTP协议略有不同。未加密的连接为ws://，而不是http://。加密的连接为wss://，而不是https://。</p>
+<p>WebSocket是应用层协议，是TCP/IP协议的子集，通过HTTP/1.1协议的101状态码进行握手。也就是说，WebSocket协议的建立需要先借助HTTP协议，在服务器返回101状态码之后，就可以进行websocket全双工双向通信了，就没有HTTP协议什么事情了。</p>
+<p>HTTP/1.1 101 Switching Protocols:101状态码表示升级协议，在返回101状态码后，HTTP协议完成工作，转换为WebSocket协议。此时就可以进行全双工双向通信了。</p>
 </div></article></div></main><footer><div class="paginator"><a href="/2019/04/03/webservice/" class="next">NEXT</a></div><div class="copyright"><p>© 2012 - 2019 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
