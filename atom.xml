@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://oldmee.github.io/"/>
-  <updated>2019-04-03T10:22:13.349Z</updated>
+  <updated>2019-04-04T03:01:32.268Z</updated>
   <id>https://oldmee.github.io/</id>
   
   <author>
@@ -17,11 +17,30 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>websocket</title>
+    <link href="https://oldmee.github.io/2019/04/04/websocket/"/>
+    <id>https://oldmee.github.io/2019/04/04/websocket/</id>
+    <published>2019-04-04T02:46:52.000Z</published>
+    <updated>2019-04-04T03:01:32.268Z</updated>
+    
+    <content type="html"><![CDATA[<p>现在，很多网站为了实现推送技术，所用的技术都是 Ajax 轮询。轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP请求，然后由服务器返回最新的数据给客户端的浏览器。这种传统的模式带来很明显的缺点，即浏览器需要不断的向服务器发出请求，然而HTTP请求可能包含较长的头部，其中真正有效的数据可能只是很小的一部分，显然这样会浪费很多的带宽等资源。</p><p>HTML5 定义的 WebSocket 协议，能更好的节省服务器资源和带宽，并且能够更实时地进行通讯。在 WebSocket API 中，浏览器和服务器只需要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以数据互相传送。<br><img src="/2019/04/04/websocket/ws.png" alt><br><a id="more"></a></p><p>Websocket协议是为了解决web即时应用中服务器与客户端浏览器全双工通信的问题而设计的，是完全意义上的Web应用端的双向通信技术，可以取代之前使用半双工HTTP协议而模拟全双工通信，同时克服了带宽和访问速度等的诸多问题。协议定义为ws和wss协议，分别为普通请求和基于SSL的安全传输，占用端口与http协议系统，ws为80端口，wss为443端口，这样可以支持HTTP代理。</p><p>协议包含两个部分，第一个是“握手”，第二个是数据传输。</p><h3 id="一、Websocket-URI"><a href="#一、Websocket-URI" class="headerlink" title="一、Websocket URI"></a>一、Websocket URI</h3><p>定义的两个协议框架ws和wss与http类似，而且各自部分的要求也是在HTTP协议中使用的一样，各自的URI如下：</p><p>ws-URI = “ws:” “//“ host [ “:” port ] path [ “?” query ]<br>        wss-URI = “wss:” “//“ host [ “:” port ] path [ “?” query ]</p><p>其中port是可选项，query前接“?”。</p><h3 id="二、握手（Opening-amp-Closing-Handshake）打开连接"><a href="#二、握手（Opening-amp-Closing-Handshake）打开连接" class="headerlink" title="二、握手（Opening &amp; Closing Handshake）打开连接"></a>二、握手（Opening &amp; Closing Handshake）打开连接</h3><p>当建立一个Websocket连接时，为了保持基于HTTP协议的服务器软件和中间件进行兼容工作，客户端打开一个连接时使用与HTTP连接的同一个端口到服务器进行连接，这样被设计为一个升级的HTTP请求。</p><h4 id="1、发送握手请求"><a href="#1、发送握手请求" class="headerlink" title="1、发送握手请求"></a>1、发送握手请求</h4><p>此时的连接状态是CONNECTING，客户端需要提供host、port、resource-name和一个是否是安全连接的标记，也就是一个WebSocket URI。</p><p>客户端发送的一个到服务器端握手请求如下：</p><p><code><br>        GET /chat HTTP/1.1<br>        Host: server.example.com<br>        Upgrade: websocket<br>        Connection: Upgrade<br>        Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==<br>        Origin: <a href="http://example.com" target="_blank" rel="noopener">http://example.com</a><br>        Sec-WebSocket-Protocol: chat, superchat<br>        Sec-WebSocket-Version: 13<br></code><br>这个升级的HTTP请求头中的字段顺序是可以随便的。与普通HTTP请求相比多了一些字段。</p><ul><li>Sec-WebSocket-Protocol：字段表示客户端可以接受的子协议类型，也就是在Websocket协议上的应用层协议类型。上面可以看到客户端支持chat和superchat两个应用层协议，当服务器接受到这个字段后要从中选出一个协议返回给客户端。</li><li>Upgrade：告诉服务器这个HTTP连接是升级的Websocket连接。</li><li>Connection：告知服务器当前请求连接是升级的。</li><li>Origin：该字段是用来防止客户端浏览器使用脚本进行未授权的跨源攻击，这个字段在WebSocket协议中非常重要。服务器要根据这个字段判断是否接受客户端的Socket连接。可以返回一个HTTP错误状态码来拒绝连接。</li><li>Sec-WebSocket-Key：为了表示服务器同意和客户端进行Socket连接，服务器端需要使用客户端发送的这个Key进行校验，然后返回一个校验过的字符串给客户端，客户端验证通过后才能正式建立Socket连接。服务器验证方法是：首先进行 Key + 全局唯一标示符（GUID）“258EAFA5-E914-47DA-95CA-C5AB0DC85B11”连接起来，然后将连接起来的字符串使用SHA-1哈希加密，再进行base64加密，将得到的字符串返回给客户端作为握手依据。其中GUID是一个对于不识别WebSocket的网络端点不可能使用的字符串。</li></ul><p>发送请求的要求：</p><ul><li>请求的WebSocket URI必须要是定义的有效的URI。</li><li>如果客户端已经有一个WebSocket连接到远程服务器端，不论是否是同一个服务器，客户端必须要等待上一个连接关闭后才能发送新的连接请求，也就是同一客户端一次只能存在一个WebSocket连接。如果想同一个服务器有多个连接，客户端必须要串行化进行。如果客户端检测到多个到不同服务器的连接，应该限制一个最大连接数，在web浏览器中应该设定最多可以打开的标签页的数目。这样可以防止到远程服务器的DDOS攻击，但这是对到多个服务器的连接，如果是到同一个服务器连接，并没有数目限制。</li><li>如果使用了代理服务器，那么客户端建立连接的时候需要告知代理服务器向目标服务器打开TCP连接。</li><li>如果连接没有打开，一定是某一方出现错误，此时客户端必须要关闭再次连接的尝试。</li><li>连接建立后，握手必须要是一个有效的HTTP请求</li><li>请求的方式必须是GET，HTTP协议的版本至少是1.1</li><li>Upgrade字段必须包含而且必须是”websocket”，Connection字段必须内容必须是“Upgrade”</li><li>Sec-Websocket-Version必须，而且必须是13</li></ul><h4 id="2、返回握手应答"><a href="#2、返回握手应答" class="headerlink" title="2、返回握手应答"></a>2、返回握手应答</h4><p>服务器返回正确的相应头后，客户端验证后将建立连接，此时状态为OPEN。服务器响应头如下：<br><code><br>       HTTP/1.1 101 Switching Protocols<br>        Upgrade: websocket<br>        Connection: Upgrade<br>        Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=<br>        Sec-WebSocket-Protocol: chat<br></code><br>响应头握手过程中是服务器返回的是否同意握手的依据。</p><ul><li>首行返回的是HTTP/1.1协议版本和状态码101，表示变换协议（Switching Protocol）</li><li>Upgrade 和 Connection：这两个字段是服务器返回的告知客户端同意使用升级并使用websocket协议，用来完善HTTP升级响应</li><li>Sec-WebSocket-Accept：服务器端将加密处理后的握手Key通过这个字段返回给客户端表示服务器同意握手建立连接。</li><li>Sec-Websocket-Procotol：服务器选择的一个应用层协议。<br>上述响应头字段被客户端浏览器解析，如果验证到Sec-WebSocket-Accept字段的信息符合要求就会建立连接，同时就可以发送WebSocket的数据帧了。如果该字段不符合要求或者为空或者HTTP状态码不为101，就不会建立连接。</li></ul><p>服务器端响应步骤：</p><ul><li>解析握手请求头：获取握手依据Key并进行处理，检测HTTP的GET请求和版本是否准确，Host字段是否有权限，Upgrade字段中websocket是一个与大小写无关的ASCII字符串，Connection字段是一个大小写无关的”Upgrade”ASCII字符串，Websocket协议版本必须为13，其他的关于Origin、Protocol和Extensions可选。</li><li>发送握手响应头：检测是否是wss协议连接，如果是就是用TLS握手连接，否则就是普通连接。服务器可以添加额外的验证信息到客户端进行验证。当进行一系列验证之后，服务器必须返回一个有效的HTTP响应头。响应头中每一行一个字段，结束必须为“\r\n”，使用的ABNF语法。</li></ul><p>除了上述必要头字段之外，其他的HTTP协议定义的字段都可以使用，如Set-Cookie等。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;现在，很多网站为了实现推送技术，所用的技术都是 Ajax 轮询。轮询是在特定的的时间间隔（如每1秒），由浏览器对服务器发出HTTP请求，然后由服务器返回最新的数据给客户端的浏览器。这种传统的模式带来很明显的缺点，即浏览器需要不断的向服务器发出请求，然而HTTP请求可能包含较长的头部，其中真正有效的数据可能只是很小的一部分，显然这样会浪费很多的带宽等资源。&lt;/p&gt;
+&lt;p&gt;HTML5 定义的 WebSocket 协议，能更好的节省服务器资源和带宽，并且能够更实时地进行通讯。在 WebSocket API 中，浏览器和服务器只需要做一个握手的动作，然后，浏览器和服务器之间就形成了一条快速通道。两者之间就直接可以数据互相传送。&lt;br&gt;&lt;img src=&quot;/2019/04/04/websocket/ws.png&quot; alt&gt;&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>一秒钟搞懂webservice</title>
-    <link href="https://oldmee.github.io/2019/04/03/ebservice/"/>
-    <id>https://oldmee.github.io/2019/04/03/ebservice/</id>
+    <link href="https://oldmee.github.io/2019/04/03/webservice/"/>
+    <id>https://oldmee.github.io/2019/04/03/webservice/</id>
     <published>2019-04-03T09:42:00.000Z</published>
-    <updated>2019-04-03T10:22:13.349Z</updated>
+    <updated>2019-04-04T02:28:27.525Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>虽然现在都是http的api，但是有些老项目依然用的是webservice，如果碰到了也需要用webservice来调用。所以像这种可能会用到的知识，花一秒钟搞懂概念就行，用到的时候再说。</p></blockquote><a id="more"></a><h3 id="webservice（SOAP）与HTTP接口的区别"><a href="#webservice（SOAP）与HTTP接口的区别" class="headerlink" title="webservice（SOAP）与HTTP接口的区别"></a>webservice（SOAP）与HTTP接口的区别</h3><h4 id="什么是web-service？"><a href="#什么是web-service？" class="headerlink" title="什么是web service？"></a>什么是web service？</h4><p>soap请求是HTTP POST的一个专用版本，遵循一种特殊的xml消息格式Content-type设置为: text/xml任何数据都可以xml化。</p><h4 id="为什么要学习web-service？"><a href="#为什么要学习web-service？" class="headerlink" title="为什么要学习web service？"></a>为什么要学习web service？</h4><p>大多数对外接口会实现web service方法而不是http方法，如果你不会，那就没有办法对接。<br>web service相对http (post/get)有好处吗？</p><ol><li>接口中实现的方法和要求参数一目了然</li><li>不用担心大小写问题</li><li>不用担心中文urlencode问题</li><li>代码中不用多次声明认证(账号,密码)参数</li><li>传递参数可以为数组，对象等…</li></ol><h4 id="web-service相对http（post-get）快吗？"><a href="#web-service相对http（post-get）快吗？" class="headerlink" title="web service相对http（post/get）快吗？"></a>web service相对http（post/get）快吗？</h4><p>由于要进行xml解析，速度可能会有所降低。</p><h4 id="web-service-可以被http（post-get）替代吗？"><a href="#web-service-可以被http（post-get）替代吗？" class="headerlink" title="web service 可以被http（post/get）替代吗？"></a>web service 可以被http（post/get）替代吗？</h4><p>完全可以，而且现在的开放平台都是用的HTTP（post/get）实现的。</p><h4 id="SOAP-请求："><a href="#SOAP-请求：" class="headerlink" title="SOAP 请求："></a>SOAP 请求：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">POST /InStock HTTP/1.1</span><br><span class="line">Host: www.example.org</span><br><span class="line">Content-Type: application/soap+xml; charset=utf-8</span><br><span class="line">Content-Length: nnn</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">soap:Envelope</span></span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:soap</span>=<span class="string">"http://www.w3.org/2001/12/soap-envelope"</span></span></span><br><span class="line"><span class="tag"><span class="attr">soap:encodingStyle</span>=<span class="string">"http://www.w3.org/2001/12/soap-encoding"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">soap:Body</span> <span class="attr">xmlns:m</span>=<span class="string">"http://www.example.org/stock"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">m:GetStockPrice</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">m:StockName</span>&gt;</span>IBM<span class="tag">&lt;/<span class="name">m:StockName</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">m:GetStockPrice</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">soap:Body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">soap:Envelope</span>&gt;</span></span><br></pre></td></tr></table></figure><h4 id="SOAP-响应："><a href="#SOAP-响应：" class="headerlink" title="SOAP 响应："></a>SOAP 响应：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Content-Type: application/soap+xml; charset=utf-8</span><br><span class="line">Content-Length: nnn</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">soap:Envelope</span></span></span><br><span class="line"><span class="tag"><span class="attr">xmlns:soap</span>=<span class="string">"http://www.w3.org/2001/12/soap-envelope"</span></span></span><br><span class="line"><span class="tag"><span class="attr">soap:encodingStyle</span>=<span class="string">"http://www.w3.org/2001/12/soap-encoding"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">soap:Body</span> <span class="attr">xmlns:m</span>=<span class="string">"http://www.example.org/stock"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">m:GetStockPriceResponse</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">m:Price</span>&gt;</span>34.5<span class="tag">&lt;/<span class="name">m:Price</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">m:GetStockPriceResponse</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">soap:Body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">soap:Envelope</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
     
@@ -394,26 +413,6 @@
     
     
       <category term="MyBatis" scheme="https://oldmee.github.io/tags/MyBatis/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Bloom-Filter布隆过滤</title>
-    <link href="https://oldmee.github.io/2017/03/19/Bloom-Filter/"/>
-    <id>https://oldmee.github.io/2017/03/19/Bloom-Filter/</id>
-    <published>2017-03-19T08:54:00.000Z</published>
-    <updated>2019-03-19T09:36:02.777Z</updated>
-    
-    <content type="html"><![CDATA[<p>本质上布隆过滤器是一种数据结构，比较巧妙的概率型数据结构（probabilistic data structure），特点是高效地插入和查询，可以用来告诉你 “某样东西一定不存在或者可能存在”。<br><a id="more"></a></p><p>相比于传统的 List、Set、Map 等数据结构，它更高效、占用空间更少，但是缺点是其返回的结果是概率性的，而不是确切的。</p><p>布隆过滤器是一个 bit 向量或者说 bit 数组，每个位置初始都是0</p><p>使用多个不同的哈希函数生成多个哈希值，并对每个生成的哈希值指向的 bit 位置 由0变为1</p><p>判断一个东西是否存在先通过多个hash并生成多个哈希值，完了去布隆表上对应的hash槽里找一下，如果有一个不存在，那么这个东西他就肯定不存在，如果都存在也只能表明这东西有可能存在。</p><p>下面介绍两个属性，首先是布隆表的哈希槽，少的话很快就都是1了，那么必然不准确了，其次是哈希个数，太多了效率肯定低了，因为计算耗时嘛，太少了容易误判，也不好。有个公式可以计算这两个值怎么取，总之，布隆过滤就是一种数据结构，看业务情况使用。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;本质上布隆过滤器是一种数据结构，比较巧妙的概率型数据结构（probabilistic data structure），特点是高效地插入和查询，可以用来告诉你 “某样东西一定不存在或者可能存在”。&lt;br&gt;&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="数据结构" scheme="https://oldmee.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
   </entry>
   
