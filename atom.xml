@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://oldmee.github.io/"/>
-  <updated>2021-01-24T08:10:06.306Z</updated>
+  <updated>2021-01-24T08:31:57.456Z</updated>
   <id>https://oldmee.github.io/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>记一次多租户下http请求被503的应对过程</title>
-    <link href="https://oldmee.github.io/2021/01/17/new/"/>
-    <id>https://oldmee.github.io/2021/01/17/new/</id>
-    <published>2021-01-17T06:12:40.000Z</published>
-    <updated>2021-01-24T08:10:06.306Z</updated>
+    <link href="https://oldmee.github.io/2021/01/17/multitenancy-503/"/>
+    <id>https://oldmee.github.io/2021/01/17/multitenancy-503/</id>
+    <published>2021-01-17T06:12:00.000Z</published>
+    <updated>2021-01-24T08:31:57.456Z</updated>
     
     <content type="html"><![CDATA[<p>起因，因为获取数据的服务跟本服务无法在同一个注册中心下，于是没法走RPC只能http调用，这不可避免的会走到nginx上，于是引发了限流，导致503错误</p><h3 id="第一次改进"><a href="#第一次改进" class="headerlink" title="第一次改进"></a>第一次改进</h3><p>设置随机缓存时间，从1800秒到3600秒，方法开始判断缓存是否存在，方法结束将最新值写入缓存中，如果http调用数据为空则直接返回默认值而不会走到方法最后设置缓存了。<br>原本运行良好，没有任何异常，结果http被调用接口改了一个需求挂了，导致每次http调用拿到的值都为空，导致每次都没有设置缓存，于是每次都会不停调用http方法，结果就是，Kibana上半个小时打印了将近一万六千次异常日志……</p><h3 id="第二次改进"><a href="#第二次改进" class="headerlink" title="第二次改进"></a>第二次改进</h3><p>有了这个漏洞后只想弥补这个漏洞，于是加了一个状态，就是如果从http调用中返回空值，那么这个状态就开启，设置个过期时间，状态打开后请求就直接返回默认值，而不会走http了。但是忽略了一种情况，那就是同时很多请求过来，缓存此时已经过期，那么这些请求还是会跳过缓存而打到http请求上去。</p><h3 id="第三次改进"><a href="#第三次改进" class="headerlink" title="第三次改进"></a>第三次改进</h3><p>缓存改为写更新，有一个定时器，每10分钟执行一次，调用http请求，将最新的数据更新到缓存中，这样写完以后发现时不时就是一个503，感觉又回到解放前了，查询日志发现是因为请求后面带的随机参数是<code>System.currentTimeMillis()</code>，最细粒度是毫秒，所以会有那么多重复请求，于是想着把<code>System.currentTimeMillis()</code>改成<code>System.nanoTime()</code>，纳秒总不会有重复值的情况了吧，改完了一部署，发现还是503，头疼……</p><h3 id="第四次改进"><a href="#第四次改进" class="headerlink" title="第四次改进"></a>第四次改进</h3><p>灵机一动，想到服务器节点达到22个之多，每到时间定时任务就在22个节点上执行，其实只要一个节点运行就可以了嘛，于是果断找到问题，用redis的<code>setIfAbsent</code>控制每次只会在一个节点上执行定时任务即可，改完之后果然没再出现503</p>]]></content>
     
