@@ -38,19 +38,19 @@
 <ol>
 <li><p>启动一个zookeeper集群。 </p>
 </li>
-<li><p>在 &#x2F;tmp&#x2F;zookeeper&#x2F;VERSION-2 路径下会看到一个currentEpoch文件，文件中显示的是当前的epoch。<br><img src="/ZAB_00.png"></p>
+<li><p>在 &#x2F;tmp&#x2F;zookeeper&#x2F;VERSION-2 路径下会看到一个currentEpoch文件，文件中显示的是当前的epoch。<br><img src="/images/ZAB_00.png"></p>
 </li>
 <li><p>把leader节点停机，这个时候再看currentEpoch会发生变化。 随着每次选举新的leader，epoch都会发生变化。 </p>
 <ol>
-<li><p>先找到leader节点<br><img src="/ZAB_01.png"></p>
+<li><p>先找到leader节点<br><img src="/images/ZAB_01.png"></p>
 </li>
 <li><p>停止leader节点的服务</p>
 </li>
 </ol>
 </li>
 </ol>
-<p><img src="/ZAB_02.png"></p>
+<p><img src="/images/ZAB_02.png"></p>
 <pre><code>3. 查看当前epoch号的变化（epoch号由原来的6变为7） 
 </code></pre>
-<p><img src="/ZAB_03.png"></p>
-</div></article></div></main><footer><div class="paginator"><a href="/2016/03/22/%E5%AE%9E%E7%8E%B0%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" class="prev">PREV</a><a href="/2016/02/21/zookeeper/" class="next">NEXT</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
+<p><img src="/images/ZAB_03.png"></p>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/03/22/%E5%AE%9E%E7%8E%B0%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" class="prev">上一篇</a><a href="/2016/02/21/zookeeper/" class="next">下一篇</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

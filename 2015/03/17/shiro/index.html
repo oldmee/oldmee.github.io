@@ -2,7 +2,7 @@
 </head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/me/" target="_self" class="nav-list-link">ME</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Apache Shiro</h1><div class="post-info">Mar 17, 2015</div><div class="post-content"><p>Apache Shiro是一个强大且易用的Java安全框架，执行身份验证、授权、密码和会话管理。</p>
 <span id="more"></span>
 
-<h3 id="shiro基本模块"><a href="#shiro基本模块" class="headerlink" title="shiro基本模块"></a>shiro基本模块</h3><p><img src="/shiro.png"></p>
+<h3 id="shiro基本模块"><a href="#shiro基本模块" class="headerlink" title="shiro基本模块"></a>shiro基本模块</h3><p><img src="/images/shiro.png"></p>
 <ul>
 <li>Subject：主体，可以看到主体可以是任何可以与应用交互的 “用户”；</li>
 <li>SecurityManager：相当于 SpringMVC 中的 DispatcherServlet 或者 Struts2 中的 FilterDispatcher；是 Shiro 的心脏；所有具体的交互都通过 SecurityManager 进行控制；它管理着所有 Subject、且负责进行认证和授权、及会话、缓存的管理。</li>
@@ -14,8 +14,8 @@
 <li>CacheManager：缓存控制器，来管理如用户、角色、权限等的缓存的；因为这些数据基本上很少去改变，放到缓存中后可以提高访问的性能</li>
 <li>Cryptography：密码模块，Shiro 提高了一些常见的加密组件用于如密码加密 &#x2F; 解密的。</li>
 </ul>
-<h3 id="Shiro四大核心功能-Authentication-Authorization-Cryptography-Session-Management"><a href="#Shiro四大核心功能-Authentication-Authorization-Cryptography-Session-Management" class="headerlink" title="Shiro四大核心功能:Authentication,Authorization,Cryptography,Session Management"></a>Shiro四大核心功能:Authentication,Authorization,Cryptography,Session Management</h3><p><img src="/shiro2.png"></p>
-<h3 id="Shiro三个核心组件：Subject-SecurityManager-和-Realms"><a href="#Shiro三个核心组件：Subject-SecurityManager-和-Realms" class="headerlink" title="Shiro三个核心组件：Subject, SecurityManager 和 Realms."></a>Shiro三个核心组件：Subject, SecurityManager 和 Realms.</h3><p><img src="/shiro3.png"></p>
+<h3 id="Shiro四大核心功能-Authentication-Authorization-Cryptography-Session-Management"><a href="#Shiro四大核心功能-Authentication-Authorization-Cryptography-Session-Management" class="headerlink" title="Shiro四大核心功能:Authentication,Authorization,Cryptography,Session Management"></a>Shiro四大核心功能:Authentication,Authorization,Cryptography,Session Management</h3><p><img src="/images/shiro2.png"></p>
+<h3 id="Shiro三个核心组件：Subject-SecurityManager-和-Realms"><a href="#Shiro三个核心组件：Subject-SecurityManager-和-Realms" class="headerlink" title="Shiro三个核心组件：Subject, SecurityManager 和 Realms."></a>Shiro三个核心组件：Subject, SecurityManager 和 Realms.</h3><p><img src="/images/shiro3.png"></p>
 <h4 id="三个核心组件：Subject-SecurityManager-和-Realms"><a href="#三个核心组件：Subject-SecurityManager-和-Realms" class="headerlink" title="三个核心组件：Subject, SecurityManager 和 Realms."></a>三个核心组件：Subject, SecurityManager 和 Realms.</h4><ul>
 <li>Subject：主体，代表了当前“用户”，这个用户不一定是一个具体的人，与当前应用交互的任何东西都是Subject，如网络爬虫，机器人等；即一个抽象概念；所有Subject都绑定到SecurityManager，与Subject的所有交互都会委托给SecurityManager；可以把Subject认为是一个门面；SecurityManager才是实际的执行者；</li>
 <li>SecurityManager：安全管理器；即所有与安全有关的操作都会与SecurityManager交互；且它管理着所有Subject；可以看出它是Shiro的核心，它负责与后边介绍的其他组件进行交互，如果学习过SpringMVC，你可以把它看成DispatcherServlet前端控制器；</li>
@@ -25,4 +25,4 @@
 <li>应用代码通过 Subject 来进行认证和授权，而 Subject 又委托给 SecurityManager；</li>
 <li>我们需要给 Shiro 的 SecurityManager 注入 Realm，从而让 SecurityManager 能得到合法的用户及其权限进行判断。</li>
 </ul>
-</div></article></div></main><footer><div class="paginator"><a href="/2016/02/21/zookeeper/" class="prev">PREV</a><a href="/2015/03/10/domain-name-resolution/" class="next">NEXT</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
+</div></article></div></main><footer><div class="paginator"><a href="/2016/02/21/zookeeper/" class="prev">上一篇</a><a href="/2015/03/10/domain-name-resolution/" class="next">下一篇</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

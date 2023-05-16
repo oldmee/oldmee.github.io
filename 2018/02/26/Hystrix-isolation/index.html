@@ -3,13 +3,13 @@
 <p>每次调用线程，当前请求通过计数信号量进行限制，当信号大于了最大请求数（maxConcurrentRequests）时，进行限制，调用fallback接口快速返回。</p>
 <span id="more"></span>
 
-<p><img src="/Hystrix_02.jpg"></p>
+<p><img src="/images/Hystrix_02.jpg"></p>
 <p>最重要的是，信号量的调用是同步的，也就是说，每次调用都得阻塞调用方的线程，直到结果返回。这样就导致了无法对访问做超时（只能依靠调用协议超时，无法主动释放）</p>
 <p>官网对信号量隔离的描述建议</p>
 <p>Generally the only time you should use semaphore isolation for HystrixCommands is when the call is so high volume (hundreds per second, per instance) that the overhead of separate threads is too high; this typically only applies to non-network calls.</p>
 <p>隔离的细粒度太高，数百个实例需要隔离，此时用线程池做隔离开销过大通常这种都是非网络调用的情况下线程池隔离:<br>it executes on a separate thread and concurrent requests are limited by the number of threads in the thread-pool<br>通过每次都开启一个单独线程运行。它的隔离是通过线程池，即每个隔离粒度都是个线程池，互相不干扰</p>
 <p>Commands executed in threads have an extra layer of protection against latencies beyond what network timeouts can offer.<br>线程池隔离方式，等于多了一层的保护措施，可以通过hytrix直接设置超时，超时后直接返回。</p>
-<p><img src="/Hystrix_01.jpg"></p>
+<p><img src="/images/Hystrix_01.jpg"></p>
 <p>最后总结对比下：</p>
 <table>
 <thead>
@@ -39,4 +39,4 @@
 <td align="center">小,只是个计数器</td>
 </tr>
 </tbody></table>
-</div></article></div></main><footer><div class="paginator"><a href="/2018/06/12/we-are-pool-together/" class="prev">PREV</a><a href="/2018/02/26/Beanstalk/" class="next">NEXT</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
+</div></article></div></main><footer><div class="paginator"><a href="/2018/06/12/we-are-pool-together/" class="prev">上一篇</a><a href="/2018/02/26/Beanstalk/" class="next">下一篇</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
