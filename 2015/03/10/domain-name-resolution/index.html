@@ -1,21 +1,20 @@
-<!DOCTYPE html><html lang="en-us"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 域名解析 · oldmee</title><meta name="description" content="域名解析 - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"></head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/me/" target="_self" class="nav-list-link">ME</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">域名解析</h1><div class="post-info">Mar 10, 2015</div><div class="post-content"><p>书到用时方恨少。<br><a id="more"></a></p>
-<h3 id="记录类型"><a href="#记录类型" class="headerlink" title="记录类型"></a>记录类型</h3><ul>
-<li>A记录： 将域名指向一个IPv4地址（例如：8.8.8.8）</li>
-<li>CNAME：将域名指向另一个域名（例如<a href="http://www.qcloud.com）" target="_blank" rel="noopener">www.qcloud.com）</a></li>
-<li>MX：将域名指向邮件服务器地址</li>
-<li>TXT：可任意填写，长度限制255，通常做SPF记录（反垃圾邮件）</li>
-<li>NS：域名服务器记录，将子域名指定其他DNS服务器解析</li>
-<li>AAAA：将域名指向一个iPv6地址（例如：ff06:0:0:0:0:0:0:c3）</li>
-<li>SRV：记录提供特定服务的服务器（例如_xmpp-server._tcp）</li>
-</ul>
-<p><br></p>
-<h3 id="主机记录"><a href="#主机记录" class="headerlink" title="主机记录"></a>主机记录</h3><p>要解析<a href="http://www.qcloud.com，请填写www。" target="_blank" rel="noopener">www.qcloud.com，请填写www。</a><br>主机记录就是域名前缀，常见用法有：</p>
-<ul>
-<li>www：解析后的域名为<a href="http://www.qcloud.com。" target="_blank" rel="noopener">www.qcloud.com。</a></li>
-<li>@：直接解析主域名 qcloud.com。</li>
-<li>*：泛解析，匹配其他所有域名 *.qcloud.com。</li>
-<li>mail：将域名解析为mail.qcloud.com，通常用于解析邮箱服务器。</li>
-<li>二级域名：如：abc.qcloud.com，填写abc。</li>
-<li>手机网站：如：m.qcloud.com，填写m</li>
-</ul>
-</div></article></div></main><footer><div class="paginator"><a href="/2015/03/17/shiro/" class="prev">PREV</a><a href="/2015/02/26/RPC/" class="next">NEXT</a></div><div class="copyright"><p>© 2012 - 2021 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || page.title + ' - ' + config.author;
+    meta(name="description", content=desc)
+
+block container
+    include mixins/post
+    +post(page)
+
+block pagination
+    include mixins/paginator
+    +post()
+    include partial/comment
+
+block copyright
+    include partial/copyright
