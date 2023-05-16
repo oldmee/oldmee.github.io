@@ -1,20 +1,10 @@
-extends partial/layout
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Bloom-Filter布隆过滤 · oldmee</title><meta name="description" content="Bloom-Filter布隆过滤 - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="oldmee" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/me/" target="_self" class="nav-list-link">ME</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Bloom-Filter布隆过滤</h1><div class="post-info">Mar 19, 2017</div><div class="post-content"><p>本质上布隆过滤器是一种数据结构，比较巧妙的概率型数据结构（probabilistic data structure），特点是高效地插入和查询，可以用来告诉你 “某样东西一定不存在或者可能存在”。</p>
+<span id="more"></span>
 
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<p>相比于传统的 List、Set、Map 等数据结构，它更高效、占用空间更少，但是缺点是其返回的结果是概率性的，而不是确切的。</p>
+<p>布隆过滤器是一个 bit 向量或者说 bit 数组，每个位置初始都是0</p>
+<p>使用多个不同的哈希函数生成多个哈希值，并对每个生成的哈希值指向的 bit 位置 由0变为1</p>
+<p>判断一个东西是否存在先通过多个hash并生成多个哈希值，完了去布隆表上对应的hash槽里找一下，如果有一个不存在，那么这个东西他就肯定不存在，如果都存在也只能表明这东西有可能存在。</p>
+<p>下面介绍两个属性，首先是布隆表的哈希槽，少的话很快就都是1了，那么必然不准确了，其次是哈希个数，太多了效率肯定低了，因为计算耗时嘛，太少了容易误判，也不好。有个公式可以计算这两个值怎么取，总之，布隆过滤就是一种数据结构，看业务情况使用。</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2017/05/10/MyBatis/" class="prev">上一篇</a><a href="/2017/03/17/spring-security-oauth2-SSO/" class="next">下一篇</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

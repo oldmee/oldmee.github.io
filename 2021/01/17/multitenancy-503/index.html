@@ -1,20 +1,9 @@
-extends partial/layout
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 记一次多租户下http请求被503的应对过程 · oldmee</title><meta name="description" content="记一次多租户下http请求被503的应对过程 - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="oldmee" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/me/" target="_self" class="nav-list-link">ME</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">记一次多租户下http请求被503的应对过程</h1><div class="post-info">Jan 17, 2021</div><div class="post-content"><p>起因，因为获取数据的服务跟本服务无法在同一个注册中心下，于是没法走RPC只能http调用，这不可避免的会走到nginx上，于是引发了限流，导致503错误</p>
+<span id="more"></span>
 
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<h3 id="第一次改进"><a href="#第一次改进" class="headerlink" title="第一次改进"></a>第一次改进</h3><p>设置随机缓存时间，从1800秒到3600秒，方法开始判断缓存是否存在，方法结束将最新值写入缓存中，如果http调用数据为空则直接返回默认值而不会走到方法最后设置缓存了。<br>原本运行良好，没有任何异常，结果http被调用接口改了一个需求挂了，导致每次http调用拿到的值都为空，导致每次都没有设置缓存，于是每次都会不停调用http方法，结果就是，Kibana上半个小时打印了将近一万六千次异常日志……</p>
+<h3 id="第二次改进"><a href="#第二次改进" class="headerlink" title="第二次改进"></a>第二次改进</h3><p>有了这个漏洞后只想弥补这个漏洞，于是加了一个状态，就是如果从http调用中返回空值，那么这个状态就开启，设置个过期时间，状态打开后请求就直接返回默认值，而不会走http了。但是忽略了一种情况，那就是同时很多请求过来，缓存此时已经过期，那么这些请求还是会跳过缓存而打到http请求上去。</p>
+<h3 id="第三次改进"><a href="#第三次改进" class="headerlink" title="第三次改进"></a>第三次改进</h3><p>缓存改为写更新，有一个定时器，每10分钟执行一次，调用http请求，将最新的数据更新到缓存中，这样写完以后发现时不时就是一个503，感觉又回到解放前了，查询日志发现是因为请求后面带的随机参数是<code>System.currentTimeMillis()</code>，最细粒度是毫秒，所以会有那么多重复请求，于是想着把<code>System.currentTimeMillis()</code>改成<code>System.nanoTime()</code>，纳秒总不会有重复值的情况了吧，改完了一部署，发现还是503，头疼……</p>
+<h3 id="第四次改进"><a href="#第四次改进" class="headerlink" title="第四次改进"></a>第四次改进</h3><p>灵机一动，想到服务器节点达到22个之多，每到时间定时任务就在22个节点上执行，其实只要一个节点运行就可以了嘛，于是果断找到问题，用redis的<code>setIfAbsent</code>控制每次只会在一个节点上执行定时任务即可，改完之后果然没再出现503</p>
+</div></article></div></main><footer><div class="paginator"><a href="/2023/05/16/5-things-I-wish-I-heard-at-the-graduation-I-never-had/" class="prev">上一篇</a><a href="/2019/04/04/websocket/" class="next">下一篇</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

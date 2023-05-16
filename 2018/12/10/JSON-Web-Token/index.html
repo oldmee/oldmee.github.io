@@ -1,20 +1,68 @@
-extends partial/layout
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Introduction to JSON Web Tokens · oldmee</title><meta name="description" content="Introduction to JSON Web Tokens - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="oldmee" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/me/" target="_self" class="nav-list-link">ME</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Introduction to JSON Web Tokens</h1><div class="post-info">Dec 10, 2018</div><div class="post-content"><h3 id="What-is-JSON-Web-Token"><a href="#What-is-JSON-Web-Token" class="headerlink" title="What is JSON Web Token?"></a>What is JSON Web Token?</h3><p>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the <strong>HMAC</strong> algorithm) or a public&#x2F;private key pair using <strong>RSA</strong> or <strong>ECDSA</strong>.</p>
+<span id="more"></span>
+<p>Although JWTs can be encrypted to also provide secrecy between parties, we will focus on signed tokens. Signed tokens can verify the integrity of the claims contained within it, while encrypted tokens hide those claims from other parties. When tokens are signed using public&#x2F;private key pairs, the signature also certifies that only the party holding the private key is the one that signed it.</p>
+<h3 id="When-should-you-use-JSON-Web-Tokens"><a href="#When-should-you-use-JSON-Web-Tokens" class="headerlink" title="When should you use JSON Web Tokens?"></a>When should you use JSON Web Tokens?</h3><p>Here are some scenarios where JSON Web Tokens are useful:</p>
+<ul>
+<li><p>Authorization: This is the most common scenario for using JWT. Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token. Single Sign On is a feature that widely uses JWT nowadays, because of its small overhead and its ability to be easily used across different domains.</p>
+</li>
+<li><p>Information Exchange: JSON Web Tokens are a good way of securely transmitting information between parties. Because JWTs can be signed—for example, using public&#x2F;private key pairs—you can be sure the senders are who they say they are. Additionally, as the signature is calculated using the header and the payload, you can also verify that the content hasn’t been tampered with.</p>
+</li>
+</ul>
+<h3 id="What-is-the-JSON-Web-Token-structure"><a href="#What-is-the-JSON-Web-Token-structure" class="headerlink" title="What is the JSON Web Token structure?"></a>What is the JSON Web Token structure?</h3><p>In its compact form, JSON Web Tokens consist of three parts separated by dots (.), which are:</p>
+<ul>
+<li>Header</li>
+<li>Payload</li>
+<li>Signature</li>
+</ul>
+<p>Therefore, a JWT typically looks like the following.</p>
+<p>xxxxx.yyyyy.zzzzz</p>
+<p>Let’s break down the different parts.</p>
+<h4 id="Header"><a href="#Header" class="headerlink" title="Header"></a>Header</h4><p>The header typically consists of two parts: the type of the token, which is JWT, and the signing algorithm being used, such as HMAC SHA256 or RSA.</p>
+<p>For example:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;alg&quot;</span>: <span class="string">&quot;HS256&quot;</span>,</span><br><span class="line">  <span class="string">&quot;typ&quot;</span>: <span class="string">&quot;JWT&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Then, this JSON is Base64Url encoded to form the first part of the JWT.</p>
+<h4 id="Payload"><a href="#Payload" class="headerlink" title="Payload"></a>Payload</h4><p>The second part of the token is the payload, which contains the claims. Claims are statements about an entity (typically, the user) and additional data. There are three types of claims: registered, public, and private claims.</p>
+<ul>
+<li>Registered claims: These are a set of predefined claims which are not mandatory but recommended, to provide a set of useful, interoperable claims. Some of them are: iss (issuer), exp (expiration time), sub (subject), aud (audience), and others.</li>
+</ul>
+<p> Notice that the claim names are only three characters long as JWT is meant to be compact.</p>
+<ul>
+<li><p>Public claims: These can be defined at will by those using JWTs. But to avoid collisions they should be defined in the IANA JSON Web Token Registry or be defined as a URI that contains a collision resistant namespace.</p>
+</li>
+<li><p>Private claims: These are the custom claims created to share information between parties that agree on using them and are neither registered or public claims.</p>
+</li>
+</ul>
+<p>An example payload could be:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;sub&quot;</span>: <span class="string">&quot;1234567890&quot;</span>,</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;John Doe&quot;</span>,</span><br><span class="line">  <span class="string">&quot;admin&quot;</span>: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The payload is then <strong>Base64Url</strong> encoded to form the second part of the JSON Web Token.</p>
+<p>Do note that for signed tokens this information, though protected against tampering, is readable by anyone. Do not put secret information in the payload or header elements of a JWT unless it is encrypted.</p>
+<h4 id="Signature"><a href="#Signature" class="headerlink" title="Signature"></a>Signature</h4><p>To create the signature part you have to take the encoded header, the encoded payload, a secret, the algorithm specified in the header, and sign that.</p>
+<p>For example if you want to use the HMAC SHA256 algorithm, the signature will be created in the following way:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">HMACSHA256(</span><br><span class="line">  base64UrlEncode(header) + <span class="string">&quot;.&quot;</span> +</span><br><span class="line">  base64UrlEncode(payload),</span><br><span class="line">  secret)</span><br></pre></td></tr></table></figure>  
+<p>The signature is used to verify the message wasn’t changed along the way, and, in the case of tokens signed with a private key, it can also verify that the sender of the JWT is who it says it is.</p>
+<h4 id="Putting-all-together"><a href="#Putting-all-together" class="headerlink" title="Putting all together"></a>Putting all together</h4><p>The output is three Base64-URL strings separated by dots that can be easily passed in HTML and HTTP environments, while being more compact when compared to XML-based standards such as SAML.</p>
+<p>The following shows a JWT that has the previous header and payload encoded, and it is signed with a secret. </p>
+<p><img src="/jwt.png"></p>
+<p>If you want to play with JWT and put these concepts into practice, you can use jwt.io Debugger to decode, verify, and generate JWTs.<br><img src="/jwt2.png"></p>
+<h3 id="How-do-JSON-Web-Tokens-work"><a href="#How-do-JSON-Web-Tokens-work" class="headerlink" title="How do JSON Web Tokens work?"></a>How do JSON Web Tokens work?</h3><p>In authentication, when the user successfully logs in using their credentials, a JSON Web Token will be returned. Since tokens are credentials, great care must be taken to prevent security issues. In general, you should not keep tokens longer than required.</p>
+<p>Whenever the user wants to access a protected route or resource, the user agent should send the JWT, typically in the Authorization header using the Bearer schema. The content of the header should look like the following:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Bearer &lt;token&gt;</span><br></pre></td></tr></table></figure>
+<p>This can be, in certain cases, a stateless authorization mechanism. The server’s protected routes will check for a valid JWT in the <code>Authorization</code> header, and if it’s present, the user will be allowed to access protected resources. If the JWT contains the necessary data, the need to query the database for certain operations may be reduced, though this may not always be the case.</p>
+<p>If the token is sent in the <code>Authorization</code> header, Cross-Origin Resource Sharing (CORS) won’t be an issue as it doesn’t use cookies.</p>
+<p>The following diagram shows how a JWT is obtained and used to access APIs or resources:</p>
+<p><img src="/jwt3.png"></p>
+<ol>
+<li>The application or client requests authorization to the authorization server. This is performed through one of the different authorization flows. For example, a typical OpenID Connect compliant web application will go through the &#x2F;oauth&#x2F;authorize endpoint using the authorization code flow.</li>
+<li>When the authorization is granted, the authorization server returns an access token to the application.</li>
+<li>The application uses the access token to access a protected resource (like an API).</li>
+</ol>
+<p>Do note that with signed tokens, all the information contained within the token is exposed to users or other parties, even though they are unable to change it. This means you should not put secret information within the token.</p>
+<h3 id="Why-should-we-use-JSON-Web-Tokens"><a href="#Why-should-we-use-JSON-Web-Tokens" class="headerlink" title="Why should we use JSON Web Tokens?"></a>Why should we use JSON Web Tokens?</h3><p>Let’s talk about the benefits of <strong>JSON Web Tokens (JWT)</strong> when compared to <strong>Simple Web Tokens (SWT)</strong> and <strong>Security Assertion Markup Language Tokens (SAML)</strong>.</p>
+<p>As JSON is less verbose than XML, when it is encoded its size is also smaller, making JWT more compact than SAML. This makes JWT a good choice to be passed in HTML and HTTP environments.</p>
+<p>Security-wise, SWT can only be symmetrically signed by a shared secret using the HMAC algorithm. However, JWT and SAML tokens can use a public&#x2F;private key pair in the form of a X.509 certificate for signing. Signing XML with XML Digital Signature without introducing obscure security holes is very difficult when compared to the simplicity of signing JSON.</p>
+<p>JSON parsers are common in most programming languages because they map directly to objects. Conversely, XML doesn’t have a natural document-to-object mapping. This makes it easier to work with JWT than SAML assertions.</p>
+<p>Regarding usage, JWT is used at Internet scale. This highlights the ease of client-side processing of the JSON Web token on multiple platforms, especially mobile.<br><img src="/jwt4.png"></p>
+<center>*Comparison of the length of an encoded JWT and an encoded SAML*</center>
 
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+</div></article></div></main><footer><div class="paginator"><a href="/2019/02/12/myLife/" class="prev">上一篇</a><a href="/2018/10/01/travel-yunnan-erhai/" class="next">下一篇</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

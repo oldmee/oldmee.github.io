@@ -1,20 +1,21 @@
-extends partial/layout
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> 七牛云融合CDN到底怎么配置 · oldmee</title><meta name="description" content="七牛云融合CDN到底怎么配置 - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="oldmee" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/me/" target="_self" class="nav-list-link">ME</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">七牛云融合CDN到底怎么配置</h1><div class="post-info">Dec 8, 2016</div><div class="post-content"><blockquote><p>人生如戏，你得先有故事。</p>
+<footer><strong>--老李</strong></footer></blockquote>
+<span id="more"></span>
 
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<p>由于来年头一个月公司产品接入了一个旅游项目，为了保证系统的稳定性，必须要对现有架构进行改进以应对大流量的冲击。</p>
+<p>那么问题来了？怎么改？</p>
+<p>首先，我得清楚项目目前的瓶颈在什么地方，项目的日常应用场景是怎样的？</p>
+<p>我先来分析一下我们项目的情况：我们这个项目主要是应用AR技术进行娱乐，原理就是利用高通家的Vuforia SDK实现边缘识别来叠加模型，哪些图像要被识别是需要提前传到高通的服务器上的，服务器会生成几个Vuforia专用的识别文件（dataset），再将识别文件整合到项目中，识别到了需要调用什么模型自己配置就可以了。<br>我主管后台，围绕着Vuforia的结构开发了一套程序进行后台文件的管理，简单的说就是有哪些识别图，识别到了会出现什么效果等等。</p>
+<p>上面是后台的应用场景，再来看看用户端的使用场景，用户端只有移动端，Android和IOS，原理是这样：启动我们的app会先加载一段配置文件（json），主要就是让手机知道，哪些图片可以被识别（这里多说一句，因为识别图片会越来越多，所以启动速度也越来越慢，我特意研究了一下国内easyAR的SDK，他们可以即时更换识别图片，而且不用传到服务器等待生成识别文件这么复杂，但是搞AR的那哥们在高通的Vuforia花了太多时间，多少还是有点经验的，万一换个SDK，没啥优势了，嗯……很恐怖，所以老技术人一般不会轻易尝试新的技术，因为自己占领的优势会立马失去，哎……），长时间的加载等待后进入了主界面。我们根据识别图开发了很多周边产品，比如说识别图印在T恤上，做成钥匙扣，等等等等，总之就是各种识别图附着在各种实物上，听到这里我们的商业模式也应运而生，没错，卖实物赚钱，app免费下！<br>用手机扫描识别图app就会认识并给出下载提示，什么？又要下载？解释一下，这次下的是模型，也就是识别到了之后展示的效果，一个3D模型，unity开发的，这里也是一个影响用户体验的地方，用户好不容易下载了我们的app，之后好不容易进入了主界面，完了还得下载，你是用户你糟不糟心，糟！现在还是改版后的，有分类的，第一版是所有的模型都在一个包下，也就是说，进入主界面后要一次性下载所有的模型，那酸爽，简直了~<br>改版后的对模型进行了分类，这样下载时间能短一点，但是换到另外一个分类又得重新下载（用户已经气晕在地上了……），下载后模型会缓存在手机本地，现在即使用户断网了也依然可以愉快的玩耍了。</p>
+<p>写了一大段介绍app的应用场景，瓶颈已经很明显了，首先就是app启动的时候从服务拉取的那一段配置文件，其次就是下载的模型文件。怎么解决就很简单了，配置文件上缓存，因为读取的都是相同的内容，典型的读多写少的场景，模型文件是大文件，静态的，全部上CDN，这样，瓶颈就解决了，至少目前是解决了，应对来年的那个流量没有任何问题了。</p>
+<p>好了，进入正题，缓存就不细讲了，不是本文的主角，来聊聊CDN吧。</p>
+<p>CDN（Content Delivery Network）内容分发网络，就是厂家在地球的一些地方部署了服务器，作为仓库存放用户的文件，用户访问CDN服务器的时候会经过一个路由算法找到离访问者最近的一台服务器，这样就能实现快速访问，而且可以极大地减少自己服务器的压力，你想想啊，如果你的服务器在昆明，东北的用户访问你的服务器是不是要慢多了？因为距离远了嘛。CDN通过流量来收费，很合理，用的多，花的多，用的少，花的也少。</p>
+<p>最后来看看CDN配置的具体步骤吧：</p>
+<h3 id="1、先创建一个空间，以后你的乱七八糟的文件都会存放在这个空间里，如下图："><a href="#1、先创建一个空间，以后你的乱七八糟的文件都会存放在这个空间里，如下图：" class="headerlink" title="1、先创建一个空间，以后你的乱七八糟的文件都会存放在这个空间里，如下图："></a>1、先创建一个空间，以后你的乱七八糟的文件都会存放在这个空间里，如下图：</h3><p><img src="/CDN_001.jpg"></p>
+<h3 id="2、在融合CDN中创建加速域名列表，如下图："><a href="#2、在融合CDN中创建加速域名列表，如下图：" class="headerlink" title="2、在融合CDN中创建加速域名列表，如下图："></a>2、在融合CDN中创建加速域名列表，如下图：</h3><p><img src="/CDN_002.jpg"><br>加速域名随便写一个二级域名：a.b.com.cn  c.d.com  等等，写在这里，然后最后的源站配置选择第一个“七牛云存储”，并选择你刚才创建的那个空间。</p>
+<h3 id="3、完成后你会看到这样的信息："><a href="#3、完成后你会看到这样的信息：" class="headerlink" title="3、完成后你会看到这样的信息："></a>3、完成后你会看到这样的信息：</h3><p><img src="/CDN_003.jpg"><br><img src="/CDN_003_1.jpg"></p>
+<h3 id="4、找到你们的域名管理页面，域名管理有很多网站，阿里云，万网等等，按照下图配置，肯定不一样，请照葫芦画瓢："><a href="#4、找到你们的域名管理页面，域名管理有很多网站，阿里云，万网等等，按照下图配置，肯定不一样，请照葫芦画瓢：" class="headerlink" title="4、找到你们的域名管理页面，域名管理有很多网站，阿里云，万网等等，按照下图配置，肯定不一样，请照葫芦画瓢："></a>4、找到你们的域名管理页面，域名管理有很多网站，阿里云，万网等等，按照下图配置，肯定不一样，请照葫芦画瓢：</h3><p><img src="/CDN_004.jpg"><br>主机记录写加速域名里你填写的那个二级域名的前段，请看上图B中介绍，主要就是把七牛给你的CNAME填写到正确的地方，也就是D处，添加完成后会在地址后面加个 “.” 这是正常的，别手贱把它删了。</p>
+<h3 id="5、等待个十几二十分钟，状态就会变成“成功”（也就是第三部中的图片），下面是七牛存储空间的测试域名，如下图："><a href="#5、等待个十几二十分钟，状态就会变成“成功”（也就是第三部中的图片），下面是七牛存储空间的测试域名，如下图：" class="headerlink" title="5、等待个十几二十分钟，状态就会变成“成功”（也就是第三部中的图片），下面是七牛存储空间的测试域名，如下图："></a>5、等待个十几二十分钟，状态就会变成“成功”（也就是第三部中的图片），下面是七牛存储空间的测试域名，如下图：</h3><p><img src="/CDN_005.jpg"></p>
+<h3 id="6、找到存储管理中的“镜像存储”，镜像源填写你们网站的网址，有端口的把端口也加上，下面的镜像空间是你创建的那个存储空间的名字。"><a href="#6、找到存储管理中的“镜像存储”，镜像源填写你们网站的网址，有端口的把端口也加上，下面的镜像空间是你创建的那个存储空间的名字。" class="headerlink" title="6、找到存储管理中的“镜像存储”，镜像源填写你们网站的网址，有端口的把端口也加上，下面的镜像空间是你创建的那个存储空间的名字。"></a>6、找到存储管理中的“镜像存储”，镜像源填写你们网站的网址，有端口的把端口也加上，下面的镜像空间是你创建的那个存储空间的名字。</h3><p><img src="/CDN_006.jpg"></p>
+<h3 id="7、访问第五步中的那个测试域名或者你最开始写的加速域名，幸运的话会跳转到你配置的镜像源也就是你公司的网址页面去，多访问一些页面，你会在七牛存储空间的内容管理中看到多了一些文件，其实这就是你们公司网址上的资源文件，七牛第一次访问的时候根据镜像源去你们公司抓取并存放在七牛云你创建的存储空间里，之后再次访问就直接在七牛里面拿了，大大的降低了你们公司服务器的压力。"><a href="#7、访问第五步中的那个测试域名或者你最开始写的加速域名，幸运的话会跳转到你配置的镜像源也就是你公司的网址页面去，多访问一些页面，你会在七牛存储空间的内容管理中看到多了一些文件，其实这就是你们公司网址上的资源文件，七牛第一次访问的时候根据镜像源去你们公司抓取并存放在七牛云你创建的存储空间里，之后再次访问就直接在七牛里面拿了，大大的降低了你们公司服务器的压力。" class="headerlink" title="7、访问第五步中的那个测试域名或者你最开始写的加速域名，幸运的话会跳转到你配置的镜像源也就是你公司的网址页面去，多访问一些页面，你会在七牛存储空间的内容管理中看到多了一些文件，其实这就是你们公司网址上的资源文件，七牛第一次访问的时候根据镜像源去你们公司抓取并存放在七牛云你创建的存储空间里，之后再次访问就直接在七牛里面拿了，大大的降低了你们公司服务器的压力。"></a>7、访问第五步中的那个测试域名或者你最开始写的加速域名，幸运的话会跳转到你配置的镜像源也就是你公司的网址页面去，多访问一些页面，你会在七牛存储空间的内容管理中看到多了一些文件，其实这就是你们公司网址上的资源文件，七牛第一次访问的时候根据镜像源去你们公司抓取并存放在七牛云你创建的存储空间里，之后再次访问就直接在七牛里面拿了，大大的降低了你们公司服务器的压力。</h3></div></article></div></main><footer><div class="paginator"><a href="/2017/02/26/Spring-REST-Docs/" class="prev">上一篇</a><a href="/2016/09/22/Java-singleton-five-methon/" class="next">下一篇</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>

@@ -1,20 +1,42 @@
-extends partial/layout
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> Hystrix 的线程池隔离和信号量隔离 · oldmee</title><meta name="description" content="Hystrix 的线程池隔离和信号量隔离 - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="oldmee" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li><li class="nav-list-item"><a href="/me/" target="_self" class="nav-list-link">ME</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">Hystrix 的线程池隔离和信号量隔离</h1><div class="post-info">Feb 26, 2018</div><div class="post-content"><p>信号量的隔离：<br> it executes on the calling thread and concurrent requests are limited by the semaphore count.</p>
+<p>每次调用线程，当前请求通过计数信号量进行限制，当信号大于了最大请求数（maxConcurrentRequests）时，进行限制，调用fallback接口快速返回。</p>
+<span id="more"></span>
 
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || page.title + ' - ' + config.author;
-    meta(name="description", content=desc)
-
-block container
-    include mixins/post
-    +post(page)
-
-block pagination
-    include mixins/paginator
-    +post()
-    include partial/comment
-
-block copyright
-    include partial/copyright
+<p><img src="/Hystrix_02.jpg"></p>
+<p>最重要的是，信号量的调用是同步的，也就是说，每次调用都得阻塞调用方的线程，直到结果返回。这样就导致了无法对访问做超时（只能依靠调用协议超时，无法主动释放）</p>
+<p>官网对信号量隔离的描述建议</p>
+<p>Generally the only time you should use semaphore isolation for HystrixCommands is when the call is so high volume (hundreds per second, per instance) that the overhead of separate threads is too high; this typically only applies to non-network calls.</p>
+<p>隔离的细粒度太高，数百个实例需要隔离，此时用线程池做隔离开销过大通常这种都是非网络调用的情况下线程池隔离:<br>it executes on a separate thread and concurrent requests are limited by the number of threads in the thread-pool<br>通过每次都开启一个单独线程运行。它的隔离是通过线程池，即每个隔离粒度都是个线程池，互相不干扰</p>
+<p>Commands executed in threads have an extra layer of protection against latencies beyond what network timeouts can offer.<br>线程池隔离方式，等于多了一层的保护措施，可以通过hytrix直接设置超时，超时后直接返回。</p>
+<p><img src="/Hystrix_01.jpg"></p>
+<p>最后总结对比下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">隔离方式</th>
+<th align="center">是否支持超时</th>
+<th align="center">是否支持熔断</th>
+<th align="center">隔离原理</th>
+<th align="center">是否是异步调用</th>
+<th align="center">资源消耗</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">线程池隔离</td>
+<td align="center">支持,可直接返回</td>
+<td align="center">支持,当线程池到达maxSize后,再请求会触发fallback接口进行熔断</td>
+<td align="center">每个服务单独用线程池</td>
+<td align="center">可以是异步,也可以是同步。看调用的方法</td>
+<td align="center">大,大量线程的上下文切换，容易造成机器负载高</td>
+</tr>
+<tr>
+<td align="center">信号量隔离</td>
+<td align="center">不支持,如果阻塞，只能通过调用协议（如:socket超时才能返回）</td>
+<td align="center">支持，当信号量达到maxConcurrentRequests后。再请求会触发fallback</td>
+<td align="center">通过信号量的计数器</td>
+<td align="center">同步调用,不支持异步</td>
+<td align="center">小,只是个计数器</td>
+</tr>
+</tbody></table>
+</div></article></div></main><footer><div class="paginator"><a href="/2018/06/12/we-are-pool-together/" class="prev">上一篇</a><a href="/2018/02/26/Beanstalk/" class="next">下一篇</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
