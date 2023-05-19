@@ -1,4 +1,4 @@
-https://oldmee.github.io/2023/05/19/123/
+https://oldmee.github.io/2023/05/19/Twelve-home-remedies/
 https://oldmee.github.io/2016/12/08/qiniu-CDN/
 https://oldmee.github.io/2018/06/12/we-are-pool-together/
 https://oldmee.github.io/2018/10/01/travel-yunnan-erhai/
@@ -61,5 +61,7 @@ https://oldmee.github.io/tags/%E7%AE%97%E6%B3%95/
 https://oldmee.github.io/tags/%E6%95%8F%E6%84%9F%E8%AF%8D%E8%BF%87%E6%BB%A4/
 https://oldmee.github.io/tags/%E6%97%85%E6%B8%B8/
 https://oldmee.github.io/tags/zookeeper/
+https://oldmee.github.io/tags/%E8%83%83%E7%96%BC/
 https://oldmee.github.io/categories/hexo%E4%BD%BF%E7%94%A8/
 https://oldmee.github.io/categories/hexo%E4%BD%BF%E7%94%A8/hexo-admin/
+https://oldmee.github.io/categories/%E5%85%BB%E7%94%9F/
