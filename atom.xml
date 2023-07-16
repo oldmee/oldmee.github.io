@@ -6,7 +6,7 @@
   <link href="https://oldmee.github.io/atom.xml" rel="self"/>
   
   <link href="https://oldmee.github.io/"/>
-  <updated>2023-07-16T09:50:27.928Z</updated>
+  <updated>2023-07-16T13:12:20.445Z</updated>
   <id>https://oldmee.github.io/</id>
   
   <author>
@@ -21,14 +21,14 @@
     <link href="https://oldmee.github.io/2023/07/16/how-to-resource-annotation-work-in-spring/"/>
     <id>https://oldmee.github.io/2023/07/16/how-to-resource-annotation-work-in-spring/</id>
     <published>2023-07-16T08:27:00.000Z</published>
-    <updated>2023-07-16T09:50:27.928Z</updated>
+    <updated>2023-07-16T13:12:20.445Z</updated>
     
-    <content type="html"><![CDATA[<p>都说<code>@Resource</code>比<code>@Autowire</code>好用，因为@<code>Resource</code>根据<code>name</code>匹配不到还会用<code>type</code>去匹配，<code>@Autowire</code>可做不到。</p><p><code>@Autowire</code>是因为有一个叫<code>AutowiredAnnotationBeanPostProcessor</code>的<code>BeanPostProcessor</code>,在<code>Spring</code>初始化的时候会去处理被<code>@Autowire</code>注解的类，对其进行注入，那<code>@Resource</code>呢，甚至在<code>Spring frame</code>里都没有这个注解。</p><p>当然，这个注解是在<code>JSR250</code>（<a href="https://link.springer.com/chapter/10.1007/978-1-4842-5642-8_2">JSR:Java Specification Requests</a> 可以理解为JDK的需求，250是需求编号）中提出来的,这个注解在<code>jakarta.annotation-api</code>中，引入即可，是不是这样注解就生效了呢，并不是，注解只是标注，还是需要实现，那么<code>@resource</code>是谁来实现的呢？</p><p><code>CommonAnnotationBeanPostProcessor</code>，这个<code>BeanPostProcessor</code>专门负责处理<code>out-of-box</code>的注解，也就是非<code>Spring</code>体系的注解，<code>@Resource</code>也不例外，它会扫描被<code>@Resource</code>注解了的类，然后调用<code>inject</code>方法进行注入，因为<code>@Resource</code>并不局限于<code>Spring</code>生态，<code>JNDI</code>也会定义“资源”，也是<code>CommonAnnotationBeanPostProcessor</code>负责实现。</p><p>具体的实现过程最好去debug一下才好理解。</p>]]></content>
+    <content type="html"><![CDATA[<p><code>@Resource</code>根据<code>name</code>匹配不到就退回到用<code>type</code>去匹配，<code>@Autowire</code>默认根据<code>type</code>去匹配，匹配不到也会根据<code>name</code>匹配。</p><p><code>@Autowire</code>是因为有一个叫<code>AutowiredAnnotationBeanPostProcessor</code>的<code>BeanPostProcessor</code>,在<code>Spring</code>初始化的时候会去处理被<code>@Autowire</code>注解的类，对其进行注入，那<code>@Resource</code>呢，甚至在<code>Spring frame</code>里都没有这个注解。</p><p>当然，这个注解是在<code>JSR250</code>（<a href="https://link.springer.com/chapter/10.1007/978-1-4842-5642-8_2">JSR:Java Specification Requests</a> 可以理解为JDK的需求，250是需求编号）中提出来的,这个注解在<code>jakarta.annotation-api</code>中，引入即可，是不是这样注解就生效了呢，并不是，注解只是标注，还是需要实现，那么<code>@resource</code>是谁来实现的呢？</p><p><code>CommonAnnotationBeanPostProcessor</code>，这个<code>BeanPostProcessor</code>专门负责处理<code>out-of-box</code>的注解，也就是非<code>Spring</code>体系的注解，<code>@Resource</code>也不例外，它会扫描被<code>@Resource</code>注解了的类，然后调用<code>inject</code>方法进行注入，因为<code>@Resource</code>并不局限于<code>Spring</code>生态，<code>JNDI</code>也会定义“资源”，也是<code>CommonAnnotationBeanPostProcessor</code>负责实现。</p><p>具体的实现过程最好去debug一下才好理解。</p>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;都说&lt;code&gt;@Resource&lt;/code&gt;比&lt;code&gt;@Autowire&lt;/code&gt;好用，因为@&lt;code&gt;Resource&lt;/code&gt;根据&lt;code&gt;name&lt;/code&gt;匹配不到还会用&lt;code&gt;type&lt;/code&gt;去匹配，&lt;code&gt;@Autowire&lt;</summary>
+    <summary type="html">&lt;p&gt;&lt;code&gt;@Resource&lt;/code&gt;根据&lt;code&gt;name&lt;/code&gt;匹配不到就退回到用&lt;code&gt;type&lt;/code&gt;去匹配，&lt;code&gt;@Autowire&lt;/code&gt;默认根据&lt;code&gt;type&lt;/code&gt;去匹配，匹配不到也会根据&lt;code&gt;name&lt;</summary>
       
     
     
