@@ -1,7 +1,36 @@
 <!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> how to @Resource work in Spring · oldmee</title><meta name="description" content="how to @Resource work in Spring - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="oldmee" type="application/atom+xml">
 </head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">how to @Resource work in Spring</h1><div class="post-info">Jul 16, 2023</div><div class="post-content"><p><code>@Resource</code>根据<code>name</code>匹配不到就退回到用<code>type</code>去匹配，<code>@Autowire</code>默认根据<code>type</code>去匹配，匹配不到也会根据<code>name</code>匹配。</p>
-<p><code>@Autowire</code>是因为有一个叫<code>AutowiredAnnotationBeanPostProcessor</code>的<code>BeanPostProcessor</code>,在<code>Spring</code>初始化的时候会去处理被<code>@Autowire</code>注解的类，对其进行注入，那<code>@Resource</code>呢，甚至在<code>Spring frame</code>里都没有这个注解。</p>
-<p>当然，这个注解是在<code>JSR250</code>（<a target="_blank" rel="noopener" href="https://link.springer.com/chapter/10.1007/978-1-4842-5642-8_2">JSR:Java Specification Requests</a> 可以理解为JDK的需求，250是需求编号）中提出来的,这个注解在<code>jakarta.annotation-api</code>中，引入即可，是不是这样注解就生效了呢，并不是，注解只是标注，还是需要实现，那么<code>@resource</code>是谁来实现的呢？</p>
+<p><code>@Autowire</code>是因为有一个叫<code>AutowiredAnnotationBeanPostProcessor</code>的<code>BeanPostProcessor</code>,在<code>Spring</code>初始化的时候会去处理被<code>@Autowire</code>注解的类，对其进行注入，那<code>@Resource</code>呢，甚至在<code>Spring Frame</code>里都没有这个注解。</p>
+<p>当然，这个注解是在<code>JSR250</code>（<a target="_blank" rel="noopener" href="https://link.springer.com/chapter/10.1007/978-1-4842-5642-8_2">JSR:Java Specification Requests</a> 可以理解为JDK的需求，250是需求编号）中提出来的，这个注解在<code>jakarta.annotation-api</code>中，引入即可，是不是这样注解就生效了呢，并不是，注解只是标注，还是需要实现，那么<code>@resource</code>是谁来实现的呢？</p>
 <p><code>CommonAnnotationBeanPostProcessor</code>，这个<code>BeanPostProcessor</code>专门负责处理<code>out-of-box</code>的注解，也就是非<code>Spring</code>体系的注解，<code>@Resource</code>也不例外，它会扫描被<code>@Resource</code>注解了的类，然后调用<code>inject</code>方法进行注入，因为<code>@Resource</code>并不局限于<code>Spring</code>生态，<code>JNDI</code>也会定义“资源”，也是<code>CommonAnnotationBeanPostProcessor</code>负责实现。</p>
 <p>具体的实现过程最好去debug一下才好理解。</p>
+<br>
+<br>
+
+<h3 id="先byName再byType解释"><a href="#先byName再byType解释" class="headerlink" title="先byName再byType解释"></a>先byName再byType解释</h3><p>@Resource没有参数时，会先byName，这个name是被@Resource修饰的成员变量的名称，如果找不到才会退回到byType，而且就如下面所说的，“自己的类中注入自己是不会被byType注入的”</p>
+<figure>
+  <img
+  src="/images/pasted-11.png">
+  <center><figcaption>【成员变量的名称】</figcaption></center>
+</figure>
+
+<figure>
+  <img
+  src="/images/pasted-9.png">
+  <center><figcaption>【bean的名称】</figcaption></center>
+</figure>
+
+<br>
+<br>
+
+<p>在<code>CommonAnnotationBeanPostProcessor</code>中，有一个控制回退到byType匹配的字段<code>fallbackToDefaultTypeMatch</code>，默认值就是true，如下图所示：</p>
+<p><img src="/images/pasted-12.png" alt="upload successful"></p>
+<p><img src="/images/pasted-13.png" alt="upload successful"></p>
+<br>
+<br>
+果然是这样，自己的类中注入自己是不会被byType注入的（但是可以通过byName注入，容易死循环【就像一个没有出口的递归函数】，慎用）
+
+
+<p><img src="/images/pasted-14.png" alt="upload successful"></p>
+<p><img src="/images/pasted-15.png" alt="upload successful"></p>
 </div></article></div></main><footer><div class="paginator"><a href="/2023/06/27/parkinson-s-law/" class="next">NEXT</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
