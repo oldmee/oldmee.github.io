@@ -1,3 +1,4 @@
+https://oldmee.github.io/2023/07/29/quick-sort-again/
 https://oldmee.github.io/2023/07/16/how-to-resource-annotation-work-in-spring/
 https://oldmee.github.io/2023/06/27/parkinson-s-law/
 https://oldmee.github.io/2023/06/01/thread-pool-executor/
