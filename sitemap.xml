@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://oldmee.github.io/2023/07/29/quick-sort-again/</loc>
+    
+    <lastmod>2023-08-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://oldmee.github.io/2020/04/05/engineer-bad-habit/</loc>
+    
+    <lastmod>2023-08-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://oldmee.github.io/2016/12/08/qiniu-CDN/</loc>
     
     <lastmod>2023-08-08</lastmod>
@@ -102,15 +120,6 @@
   
   <url>
     <loc>https://oldmee.github.io/2023/07/16/how-to-resource-annotation-work-in-spring/</loc>
-    
-    <lastmod>2023-08-08</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://oldmee.github.io/2023/07/29/quick-sort-again/</loc>
     
     <lastmod>2023-08-08</lastmod>
     
