@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="en-us"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><title> process-of-the-sourcecode-compile-into-bytecode-of-Java · oldmee</title><meta name="description" content="process-of-the-sourcecode-compile-into-bytecode-of-Java - oldmee"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/css/apollo.css"><link rel="search" type="application/opensearchdescription+xml" href="https://oldmee.github.io/atom.xml" title="oldmee"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="oldmee" type="application/atom+xml">
+</head><body><div class="wrap"><header><a href="/" class="logo-link"><img src="/favicon.png" alt="logo"></a><ul class="nav nav-list"><li class="nav-list-item"><a href="/" target="_self" class="nav-list-link">BLOG</a></li><li class="nav-list-item"><a href="/archives/" target="_self" class="nav-list-link">ARCHIVE</a></li><li class="nav-list-item"><a href="https://blog.csdn.net/javaer_lee" target="_blank" class="nav-list-link">CSDN</a></li><li class="nav-list-item"><a href="https://github.com/oldmee" target="_blank" class="nav-list-link">GITHUB</a></li><li class="nav-list-item"><a href="/atom.xml" target="_self" class="nav-list-link">RSS</a></li></ul></header><main class="container"><div class="post"><article class="post-block"><h1 class="post-title">process-of-the-sourcecode-compile-into-bytecode-of-Java</h1><div class="post-info">May 2, 2022</div><div class="post-content"><p>how to compiler generates the bytecode,let me show you with the simplest words.<br><br></p>
+<span id="more"></span>
+
+<p>think of the class below:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HelloWorld</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello, World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>Step 1: Parse: Reads a set of *.java source files and maps the resulting token sequence into AST (Abstract Syntax Tree)-Nodes.</p>
+</li>
+<li><p>Step 2: Enter: Enters symbols for the definitions into the symbol table.</p>
+</li>
+<li><p>Step 3: Process annotations: If Requested, processes annotations found in the specified compilation units.</p>
+</li>
+<li><p>Step 4: Attribute: Attributes the Syntax trees. This step includes name resolution, type checking and constant folding.(<code>folding eg:&quot;a=1+2&quot; is optimized to &quot;a=3&quot;</code>)</p>
+</li>
+<li><p>Step 5: Flow: Performs dataflow analysis on the trees from the previous step. This includes checks for assignments and reachability.</p>
+</li>
+<li><p>Step 6: Desugar: Rewrites the AST and translates away some syntactic sugar.</p>
+</li>
+<li><p>Step 7: Generate: Generates ‘.Class’ files.</p>
+</li>
+</ul>
+<p>finally,The AST for our example code looks something like this:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CompilationUnit</span><br><span class="line"> └── TypeDeclaration (class: HelloWorld)</span><br><span class="line">     └── MethodDeclaration (public static void main(String[] args))</span><br><span class="line">         └── Statement (System.out.println(&quot;Hello, World!&quot;))</span><br></pre></td></tr></table></figure>
+
+<p>if you want more details,step to <code>com.sun.tools.javac.main.JavaCompiler</code> and find out</p>
+<br>
+
+<blockquote>
+<p>本文作者：oldmee<br>本文链接：<a href="https://oldmee.github.io/2023/07/16/how-to-resource-annotation-work-in-spring/">https://oldmee.github.io/2023/07/16/how-to-resource-annotation-work-in-spring/</a><br>版权声明：本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。</p>
+</blockquote>
+</div></article></div></main><footer><div class="paginator"><a href="/2023/05/16/5-things-I-wish-I-heard-at-the-graduation-I-never-had/" class="prev">PREV</a><a href="/2021/01/17/multitenancy-503/" class="next">NEXT</a></div><div class="copyright"><p>© 2012 - 2023 <a href="https://oldmee.github.io">oldmee</a>, powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/pinggod/hexo-theme-apollo" target="_blank">hexo-theme-apollo</a>.</p></div></footer></div><script async src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML" integrity="sha384-crwIf/BuaWM9rM65iM+dWFldgQ1Un8jWZMuh3puxb8TOY9+linwLoI7ZHZT+aekW" crossorigin="anonymous"></script></body></html>
