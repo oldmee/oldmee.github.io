@@ -1,6 +1,6 @@
+https://oldmee.github.io/2020/04/08/JavaScript-best-practices/
 https://oldmee.github.io/2022/08/19/paper-about-PML/
 https://oldmee.github.io/2022/05/02/process-of-the-sourcecode-compile-into-bytecode-of-Java/
-https://oldmee.github.io/2020/04/08/JavaScript-best-practices/
 https://oldmee.github.io/2023/07/29/quick-sort-again/
 https://oldmee.github.io/2016/12/08/qiniu-CDN/
 https://oldmee.github.io/2018/06/12/we-are-pool-together/

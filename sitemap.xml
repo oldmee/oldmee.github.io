@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://oldmee.github.io/2020/04/08/JavaScript-best-practices/</loc>
+    
+    <lastmod>2023-08-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://oldmee.github.io/2022/08/19/paper-about-PML/</loc>
     
     <lastmod>2023-08-19</lastmod>
@@ -14,15 +23,6 @@
     <loc>https://oldmee.github.io/2022/05/02/process-of-the-sourcecode-compile-into-bytecode-of-Java/</loc>
     
     <lastmod>2023-08-13</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://oldmee.github.io/2020/04/08/JavaScript-best-practices/</loc>
-    
-    <lastmod>2023-08-08</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
