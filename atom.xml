@@ -191,6 +191,25 @@
   </entry>
   
   <entry>
+    <title>paper-about-PML（Casbin论文）</title>
+    <link href="https://oldmee.github.io/2022/08/19/paper-about-PML/"/>
+    <id>https://oldmee.github.io/2022/08/19/paper-about-PML/</id>
+    <published>2022-08-19T06:28:00.000Z</published>
+    <updated>2023-08-19T12:50:57.864Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>PERM modeling language<br>PML:AnInterpreter-BasedAccessControl PolicyLanguageforWebServices<br>找到一篇关于casbin起源的论文，原文链接：<a href="https://arxiv.org/pdf/1903.09756">Casbin</a></p></blockquote><span id="more"></span><br><h3 id="产生的背景"><a href="#产生的背景" class="headerlink" title="产生的背景"></a>产生的背景</h3><p>过去的几年里，云计算成为了一个为了减少基础计算需求的企业级能力的革命者，其中公有云在互联网上暴露了接口，云数据的访问控制就成了非常重要的一个部分，过去十年里，学术界提出了几个访问控制策略语言，比如：XACML，SPL，Ponder等等。</p><p>介绍了一下云计算的发展，特别是公有云的安全认证问题，不同的厂家有不同的实现，虽然功能都是一样的，而且为了多平台适配还开发了不同语言版本的安全认证，，这就导致了几个问题，比如一个用户可能在好几个云服务商上都部署了自己的业务，所以如果想要在不同的云服务商上迁移的时候，就会出现安全认证代码在其它平台不兼容的情况。而且云服务商需要开发对应的安全策略语言，这也是需要成本的，而且由于他们缺乏安全方面的知识，开发出来的安全策略可能引发安全漏洞。</p><p>所以为了解决这些问题，PERM模型语言（PML）就应运而生了</p><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><p>PML可以提供很多访问控制模型，比如像：<code>access control list（ACL）</code>，<code>RBAC</code>,<code>ABAC</code>等等，</p><p>PML运行机制被设计具有两个特点：</p><ol><li>访问控制模型独立 </li><li>实现语言独立</li></ol><p>核心的PML-EM使用lua语言实现的，lua经常可以嵌入到其它的程序语言中，部分工作孵化成了目前入驻在github的开源项目casbin里，而且已经被一些公司应用在自己的生产环境中<br><br></p><h5 id="PML：将抽象的认证逻辑与策略规范分开"><a href="#PML：将抽象的认证逻辑与策略规范分开" class="headerlink" title="PML：将抽象的认证逻辑与策略规范分开"></a>PML：将抽象的认证逻辑与策略规范分开</h5><p>PML-EM：PML的运行机制，采用LUA语言实现，并融入了编译器内的编译器（<code>interpreter-oninterpreter</code>）思想，这使得它可以直接使用所有支持LUA的语言，而且实践证明，PML-EM并不会造成明显的运行开销。<br><br></p><h5 id="Request"><a href="#Request" class="headerlink" title="Request"></a>Request</h5><p>request作为一个键值对就像这样：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">request::=r:attributes</span><br><span class="line">attributes::=&#123;attr1,attr2,attr3,...&#125;</span><br></pre></td></tr></table></figure><br><h5 id="Policy"><a href="#Policy" class="headerlink" title="Policy"></a>Policy</h5><p>同样定义成键值对：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">policy::=p:attributes</span><br><span class="line">attributes::=&#123;attr1,attr2,attr3,...&#125;</span><br></pre></td></tr></table></figure><br><h5 id="Policy-Rule"><a href="#Policy-Rule" class="headerlink" title="Policy Rule"></a>Policy Rule</h5><p>它是上面policy的实例，它定义成值的数据，就像这样：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">policy_rule::=&#123;value1,value2,value3...&#125;</span><br></pre></td></tr></table></figure><br><h5 id="Matcher"><a href="#Matcher" class="headerlink" title="Matcher"></a>Matcher</h5><p>它的作用是决定策略规则怎样作用于request，它被定义成boolean表达式</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">matcher::&lt;boolean_expr&gt;(variables,constants,stub_functions)</span><br><span class="line">variables::=&#123;r.attr1,r.attr2,...,p.attr1,p.attr2&#125;</span><br><span class="line">constants::=&#123;const1,const2,const3,...&#125;</span><br></pre></td></tr></table></figure><br><h5 id="Effect"><a href="#Effect" class="headerlink" title="Effect"></a>Effect</h5><p>影响范围，比如说 <code>some|any|max|min</code><br><br></p><h5 id="Stub-Function"><a href="#Stub-Function" class="headerlink" title="Stub Function"></a>Stub Function</h5><p>可以用户自定义的策略设计<br><br></p><h5 id="Has-Role"><a href="#Has-Role" class="headerlink" title="Has_Role"></a>Has_Role</h5><p>在PML中不会直接定义角色的概念，取而代之的是用stub函数描述两个对象的角色继承关系，定义如下</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">has_role::=function_name:parameters</span><br><span class="line">function_name::=&quot;g&quot;</span><br><span class="line">parameters::&#123;attr1,attr2&#125;</span><br></pre></td></tr></table></figure><p>通用的<code>has_role</code>函数使用如下：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">m=g(r.sub,p.sub) &amp;&amp; r.obj==p.obj &amp;&amp; r.act==p.act</span><br></pre></td></tr></table></figure><p>matcher会检查是否p.sub是r.obj的一个角色，基于has_role的能力，PML也就提供了对RBAC的支持</p><p><img src="/images/pasted-17.png" alt="upload successful"></p><h3 id="关于IoI的解释："><a href="#关于IoI的解释：" class="headerlink" title="关于IoI的解释："></a>关于IoI的解释：</h3><p>因为在策略执行期间直接运行用户侧代码会因为执行了不受控制的代码而遭遇攻击，例举了一些预防的措施：</p><ol><li>在沙盒中执行stub函数，这样就不会影响到外面的PML解释器或者整个系统</li><li>当stub函数注册到云服务提供商中时执行静态代码检查，恶意代码会在这个过程中检测出来</li><li>提供一个用于函数编辑的接口，提供预定于构建模块用来构建一个stub函数</li></ol><p>然而要实现上面这三个措施需要额外的机制，实现起来很不方便。这里团队成员采用了另一种平替方案，用Lua语言写PML解释器，也就意味着PML解释器是跑在Lua解释器上的，这就是<code>interpreter-on-interpreter(IoI)</code>的由来.市面上很多流行的编程语言都对Lua解释器有一个很成熟的实现，而且体积非常小（小于1000KB），因此可以很容易的嵌入到需要被访问控制的底层系统里。</p><p>PML matcher与Lua的语法基本相同，因此PML interpreter直接使用Lua的解释器，类似于虚拟技术里面的硬件辅助，直接用物理处理器执行机器码而不是二进制的模拟器。</p><p>所有的benchmarks的请求延迟都少于5.9微秒，即使不考虑在云端运行的延迟，通过PML-EM的总体延迟跟正常事物延迟差距依然少于0.2%（当时ping的往返时间RTT大概在30-100ms）</p><br><blockquote><p>本文作者：oldmee<br>本文链接：<a href="https://oldmee.github.io/2022/08/19/paper-about-PML/">https://oldmee.github.io/2022/08/19/paper-about-PML/</a><br>版权声明：本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。</p></blockquote>]]></content>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;PERM modeling language&lt;br&gt;PML:AnInterpreter-BasedAccessControl PolicyLanguageforWebServices&lt;br&gt;找到一篇关于casbin起源的论文，原文链接：&lt;a href=&quot;https://arxiv.org/pdf/1903.09756&quot;&gt;Casbin&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>process-of-the-sourcecode-compile-into-bytecode-of-Java</title>
     <link href="https://oldmee.github.io/2022/05/02/process-of-the-sourcecode-compile-into-bytecode-of-Java/"/>
     <id>https://oldmee.github.io/2022/05/02/process-of-the-sourcecode-compile-into-bytecode-of-Java/</id>
@@ -375,24 +394,6 @@
     
     
     <summary type="html">&lt;p&gt;有过高并发实践经验的当然最好了，但事实是这很难，除非是这家公司是匹黑马，你刚去的时候用户不多，但是行业发展好，每月几百万用户用户的增长，你不断的踩坑，不断地升级公司的系统架构，现在不太可能实现了，互联网巨头们都已经尘埃落定，所以大部分人基本上也碰不到这些个情况了，但是互联网公司面试要问呐，咋整？&lt;/p&gt;</summary>
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>图书列表清单</title>
-    <link href="https://oldmee.github.io/2019/02/25/book-list/"/>
-    <id>https://oldmee.github.io/2019/02/25/book-list/</id>
-    <published>2019-02-25T01:29:22.000Z</published>
-    <updated>2019-02-25T07:31:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>老话说的好：少打王者多读书。</p></blockquote><span id="more"></span><h3 id="阅读清单"><a href="#阅读清单" class="headerlink" title="阅读清单"></a>阅读清单</h3><blockquote><p>2018-12-08<br>第一批次</p></blockquote><ul><li>Java编程思想 第4版</li><li>Head First 设计模式</li><li>深入理解Java虚拟机 JVM高级特性与最佳实践</li><li>Effective Java英文版 第三版</li><li>重构 改善既有代码的设计</li><li>Docker技术入门与实战</li><li>Hadoop权威指南第四版</li><li>Hive编程指南</li><li>Spark快速大数据分析<br/></li></ul><blockquote><p>2019-01-24<br>第二批次</p></blockquote><ul><li>Effective Java中文版 第三版<br/></li></ul><blockquote><p>2019-02-20<br>第三批次</p></blockquote><ul><li>RocketMQ技术内幕</li><li>企业私有云建设指南</li><li>ZooKeeper分布式过程协同技术详解</li><li>架构即未来</li><li>架构真经</li><li>Java机器学习</li></ul><p>…未完待续</p>]]></content>
-    
-    
-    <summary type="html">&lt;blockquote&gt;&lt;p&gt;老话说的好：少打王者多读书。&lt;/p&gt;
-&lt;/blockquote&gt;</summary>
     
     
     
